@@ -204,7 +204,28 @@
 			if(isset($_GET['id'])) { $opened = data_client($dbc, $_GET['id']); }
 
 			break;
+	
+		case 'clientoverview':
+		
+			$q = "UPDATE clients SET age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)) WHERE id = $_GET[id]";
+			$r = mysqli_query($dbc, $q);
 			
+			
+		/*
+			if(isset($_POST['submitted']) == 1) {
+					
+				if(isset($_POST['id']) != '') {
+						
+					$q = "UPDATE clients SET age = TIMESTAMPDIFF(YEAR,dob,CURDATE()) WHERE id = $_GET[id]";
+					$r = mysqli_query($dbc, $q);
+				}
+			
+			if(isset($_GET['id'])) { $opened = data_user($dbc, $_GET['id']); }
+				
+			}
+		*/
+		break;
+		
 		case 'navigation':
 			
 			if(isset($_POST['submitted']) == 1) {

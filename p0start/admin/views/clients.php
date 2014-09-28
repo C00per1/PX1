@@ -16,7 +16,7 @@
 			
 			<?php
 			
-				$q = "SELECT id FROM clients ORDER BY id ASC";
+				$q = "SELECT id FROM clients ORDER BY last ASC";
 				$r = mysqli_query($dbc, $q);
 				
 				while($list_client = mysqli_fetch_assoc($r)) {

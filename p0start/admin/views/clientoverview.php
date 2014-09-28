@@ -16,6 +16,18 @@
 			
 			</div><!-- END well -->
 			
+			<?php
+
+				//$q = "UPDATE clients SET age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)) WHERE id = $_GET[id]";
+				//$r = mysqli_query($dbc, $q);
+				
+				//$q = "UPDATE clients SET age = TIMESTAMPDIFF(YEAR,dob,CURDATE()) WHERE id = $_GET[id]";
+				//$r = mysqli_query($dbc, $q);
+								
+				//$data = mysqli_fetch_assoc($r);
+				
+			?>
+			
 			<div class="row">
 				<div class="col-md-6 col-md-offset-2">
 					
@@ -75,7 +87,7 @@
 		</div><!-- END col-md-12 column -->
 		
 		<p class="pull-right"><a href="?page=clients&id=<?php echo $_GET[id]; ?>" class="btn btn-default">Close</a></p>
-		
+
 	</div><!-- END row -->
 
 </div><!-- END container -->
