@@ -143,6 +143,20 @@
 	.panel-body.login {
 		background-color: #333333 !important;
 	}
+	.panel-footer.login {
+		background-color: #333333 !important;
+		border: none;
+	}
+	p a {
+		font-family: "AtlasTypewriterRegular", "Andale Mono", "Consolas", "Lucida Console", "Menlo", "Luxi Mono", monospace;
+		color: black;
+		cursor: pointer;
+	}
+	.btn-submit:hover {
+		color: white;
+		background-color: #2a6496;
+		border-color: #2a6496;
+	}
 
 	#system-stats {
 	}
@@ -536,6 +550,9 @@
 		margin-top: 10em;
 		text-align: center;
 		color: gray;
+	}
+	.fa-cube {
+		color: black;
 	}
 
 </style>

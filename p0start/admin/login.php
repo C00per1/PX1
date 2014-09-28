@@ -43,7 +43,7 @@ if($_POST) {
 				
 					<div class="col-md-4 col-md-offset-4">
 						<div class="row">
-							<div class="col-md-1" style="margin-left: 37%; margin-top: 20%">
+							<div class="col-md-1" style="margin-left: 36%; margin-top: 20%">
 								<i class="fa fa-cube fa-5x"></i>
 							</div>
 						</div>
@@ -62,11 +62,17 @@ if($_POST) {
 									<input type="email" class="form-control" placeholder="Email" name="email">
 									<input type="password" class="form-control" placeholder="Password" name="password">
 									
-									<button class="btn btn-md btn-submit btn-block" type="submit">Sign in</button>
+									<button class="btn btn-md btn-submit btn-block" type="submit">Go</button>
 								
 								</form><!-- END form -->
 								
 							</div><!-- END panel-body -->
+							
+							<div class="panel-footer login">
+								<p>
+									<a>Forgot your password?</a>
+								</p>
+							</div>
 								
 						</div><!-- End panel -->
 						
