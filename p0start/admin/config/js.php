@@ -1,0 +1,220 @@
+<?php
+// Javascript:
+
+
+
+
+?>
+
+<!-- Latest jQuery -->
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+<!-- jQuery UI -->
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<!-- TinyMCE -->
+<script src="js/tinymce/tinymce.min.js"></script>
+
+<!-- Dropzone -->
+<script src="js/dropzone.js"></script>
+
+<!-- atom.SaveOnBlur -->
+<script src="js/jquery.atom.SaveOnBlur.js"></script>
+
+<!-- Progressbar -->
+<script src="js/progressbar.js"></script>
+
+<!-- Skycons -->
+<script src="js/skycons.js"></script>
+
+<!-- X-editable -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+<!-- Screen Leap -->
+<!--<script type="text/javascript" src="http://api.screenleap.com/js/screenleap.js"></script>-->
+<!--
+<script src="http://code.highcharts.com/maps/highmaps.js"></script>
+<script src="http://code.highcharts.com/maps/modules/data.js"></script>
+<script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="http://code.highcharts.com/mapdata/custom/world.js"></script>
+<script src="js/sandsignika.js"></script>
+-->
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+<script>
+	
+	$(document).ready(function() {
+		
+		$("#console-debug").hide();
+		
+		$("#btn-debug").click(function() {
+			
+			$("#console-debug").toggle();
+			
+		});
+		
+		$("#inputZipCode").on("click", function() {
+			var geocoder;
+			var map;
+			function initialize() {
+			  geocoder = new google.maps.Geocoder();
+		/*
+			  var mapOptions = {
+			    zoom: 8,
+			    center: latlng
+			  };
+			  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		*/
+			}
+			
+			function codeAddress() {
+			  var address = document.getElementById('address').value;
+			  geocoder.geocode( { 'address': address}, function(results, status) {
+			    if (status == google.maps.GeocoderStatus.OK) {
+			      map.setCenter(results[0].geometry.location);
+		
+			    } else {
+			      alert('Geocode was not successful for the following reason: ' + status);
+			    }
+			  });
+			}
+			
+			google.maps.event.addDomListener(window, 'load', initialize);
+		});
+
+		$(".btn-delete").on("click", function() {
+			
+			/* Retrieve button id */
+			var selected = $(this).attr("id");
+			
+			var pageid = selected.split("del_").join("");
+			
+			/* Confirm deletion of page */
+			var confirmed = confirm("Are you sure you want to delete this page?");
+			
+			if(confirmed == true) {
+				/* Send info to another file */
+				$.get("ajax/pages.php?id="+pageid);
+			
+				$("#page_"+pageid).remove();
+				
+			}
+
+			/* Test */
+			/*alert(selected);*/
+		})
+		
+		$("#sort-nav").sortable({
+			cursor: "move",
+			update: function() {
+				var order = $(this).sortable("serialize");
+				$.get("ajax/list-sort.php", order);
+			}
+		});
+		
+		$('.nav-form').submit(function(event) {
+			var navData = $(this).serializeArray();
+			var navLabel = $('input[name=label]').val();
+			var navID = $('input[name=id]').val();
+			
+			$.ajax({
+				
+				url: "ajax/navigation.php",
+				type: "POST",
+				data: navData
+				
+			}).done(function(){
+				
+				$("#label_"+navID).html(navLabel);
+				
+			});
+			
+			
+			
+			event.preventDefault();
+		});	
+		
+    	$("canvas").each(function(){
+    		var a = new Skycons({color: "#ecf0f1"});
+    		var canvasId = $(this).attr("id");
+    		var canvasValue = $(this).attr("value");
+    		
+    		
+			if(canvasValue == "partly-cloudy-day") {
+				var iconValue = Skycons.PARTLY_CLOUDY_DAY;
+			} else if(canvasValue == "clear-night") {
+				var iconValue = Skycons.CLEAR_NIGHT;
+			} else if(canvasValue == "clear-day") {
+				var iconValue = Skycons.CLEAR_DAY;
+			} else if(canvasValue == "partly-cloudy-night") {
+				var iconValue = Skycons.PARTLY_CLOUDY_NIGHT;
+			} else if(canvasValue == "cloudy") {
+				var iconValue = Skycons.CLOUDY;	
+			} else if(canvasValue == "rain") {
+				var iconValue = Skycons.RAIN;
+			} else if(canvasValue == "sleet") {
+				var iconValue = Skycons.SLEET;
+			} else if(canvasValue == "snow") {
+				var iconValue = Skycons.SNOW;
+			} else if(canvasValue == "wind") {
+				var iconValue = Skycons.WIND;
+			} else if(canvasValue == "fog") {
+				var iconValue = Skycons.FOG;
+			} else {
+				null
+			};
+			
+    		a.set(canvasId, iconValue);
+    		a.play();
+  	
+        });
+        
+        $('#panelZipcode').hide();
+        $('a').click(function() {
+        	$('#panelZipcode').toggle();
+        });
+        
+		$.fn.editable.defaults.mode = 'popup';
+		
+		$('#inputZipCode').editable();
+		
+		// ACTIVATE progressbar.js
+		$('.progress .progress-bar').progressbar();
+		
+		
+	}); // END document.ready();
+	
+	jQuery(document).ready(function() {
+		jQuery('[rel=popover]').popover();
+	});
+	
+	tinymce.init({
+	    selector: ".editor",
+	    theme: "modern",
+	    plugins: [
+	         "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+	         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+	         "save table contextmenu directionality emoticons template paste textcolor colorpicker"
+	   ],
+	   content_css: "css/content.css",
+	   toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons", 
+	   style_formats: [
+	        {title: 'Bold text', inline: 'b'},
+	        {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+	        {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+	        {title: 'Example 1', inline: 'span', classes: 'example1'},
+	        {title: 'Example 2', inline: 'span', classes: 'example2'},
+	        {title: 'Table styles'},
+	        {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+	    ]
+	 });
+	 
+
+	
+</script>
+

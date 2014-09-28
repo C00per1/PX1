@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<menu>
+	<type name="Pizzas">
+		<item name="Tomato & Cheese">
+			<price type="Small">5.50</price>
+			<price type="Large">9.75</price>
+		</item>
+
+		<item name="Onions">
+			<price type="Small">6.85</price>
+			<price type="Large">10.85</price>
+		</item>
+
+		<item name="Peppers">
+			<price type="Small">6.85</price>
+			<price type="Large">10.85</price>
+		</item>
+		
+	</type>
+
+	<type name="Specialty Pizzas">
+		<item name="Three Aces Special">
+			<price type="Small">9.80</price>
+			<price type="Large">15.80</price>
+		</item>
+
+		<item name="Mediterranean">
+			<price type="Small">9.80</price>
+			<price type="Large">15.80</price>
+		</item>
+
+		<item name="Vegetarian">
+			<price type="Small">9.80</price>
+			<price type="Large">15.80</price>
+		</item>
+		
+	</type>
+
+	<type name="Side Orders">
+		<item name="Onion Rings">
+			<price type="Small">2.60</price>
+			<price type="Large">2.95</price>
+		</item>
+
+		<item name="French Fries">
+			<price type="Small">2.25</price>
+			<price type="Large">2.65</price>
+		</item>
+
+		<item name="Spicy Fries">
+			<price type="Small">2.60</price>
+			<price type="Large">2.95</price>
+		</item>
+		
+	</type>
+
+	<type name="Salads">
+		<item name="Garden">
+			<price type="Small">3.50</price>
+			<price type="Large">4.50</price>
+		</item>
+
+		<item name="Greek">
+			<price type="Small">4.50</price>
+			<price type="Large">5.50</price>
+		</item>
+
+		<item name="Antipasto">
+			<price type="Small">4.50</price>
+			<price type="Large">5.50</price>
+		</item>
+		
+	</type>
+
+</menu>
