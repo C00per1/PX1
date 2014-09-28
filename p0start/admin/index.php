@@ -6,4 +6,3 @@ include('template/footer.php');
 
 
 ?>
-<div>RUN</div>
