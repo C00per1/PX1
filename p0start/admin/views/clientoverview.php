@@ -71,7 +71,7 @@
 						<p><strong>Life Expectancy:</strong></p>
 					</td>
 					<td>
-						<p><?php echo $client['le']; ?></p>
+						<p><?php echo $client['lifeExpectancy']; ?></p>
 					</td>
 				</tr>
 			
@@ -91,7 +91,7 @@
 			<tbody>
 				<?php  
 				
-				for($i = 2014; $i <= 2034; $i++) { ?>
+				for($i = date("Y"); $i <= date("Y") + $client['lifeExpectancy']; $i++) { ?>
 					
 				<tr>
 					<td><?php echo $i ; ?></td>
@@ -99,6 +99,40 @@
 				</tr>
 				
 				<?php } ?>
+			</tbody>
+		</table>
+	</div><!-- END col-md column -->
+	
+		<div class="col-md-4 col-md-offset-1">
+		<table class="table table-hover">
+			<thead>
+				<th>Date</th>
+				<th>Age</th>
+			</thead>
+			<tbody>
+			<?php  
+			$dob      = date("Y-m-d", strtotime($client['dob']));
+			$today    = date("Y-m-d");
+			$start    = (new DateTime($today))->modify('first day of this month');
+			$end      = (new DateTime('2034-05-06'))->modify('first day of this month');
+			$interval = DateInterval::createFromDateString('1 month');
+			$period   = new DatePeriod($start, $interval, $end);
+			$ageT	  = $client['age'];
+			
+
+			function ageT($time1, $time2) {
+				$intervalT = date_diff($time1, $time2);
+				echo $intervalT->m + ($intervalT->y * 12);
+			}
+			
+			foreach ($period as $dt) {
+				$ageT += 1; ?>
+			<tr>
+			    <td><?php echo $dt->format("Y-m") ; ?></td>
+			    <td><?php echo $ageT ; ?></td>
+			</tr>
+			<?php } ?>
+
 			</tbody>
 		</table>
 	</div><!-- END col-md column -->
