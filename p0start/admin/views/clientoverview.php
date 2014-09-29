@@ -19,7 +19,7 @@
 ?>
 
 <div class="row" style="margin-top: 2%">
-	<div class="col-md-8 col-md-offset-1">
+	<div class="col-md-4 col-md-offset-1">
 		
 		<table class="table table-hover">
 			
@@ -41,7 +41,7 @@
 				
 				<tr>
 					<td>
-						<p><strong>Age:</strong></p>
+						<p><strong>Current Age:</strong></p>
 					</td>
 					<td>
 						<p><?php echo $client['age']; ?></p>
@@ -53,7 +53,16 @@
 						<p><strong>Full Retirement Age:</strong></p>
 					</td>
 					<td>
-						<p><?php echo $client['fra']; ?></p>
+						<p><?php
+							if(($client['fullRetirementAgeMonths'] % 12) == 0) {
+								$remainder = '';
+							} else {
+								$remainder = "-".round($client['fullRetirementAgeMonths'] % 12);
+							};
+							echo floor(($client['fullRetirementAgeMonths']/12)).$remainder;
+							
+							?>
+						</p>
 					</td>
 				</tr>
 				
@@ -70,7 +79,29 @@
 			
 		</table><!-- END table -->
 	
-	</div><!-- END col-md-6 column -->
+	</div><!-- END col-md column -->
+</div>
+<div class="row">
+	<div class="col-md-4 col-md-offset-1">
+		<table class="table table-hover">
+			<thead>
+				<th>Year</th>
+				<th>Age</th>
+			</thead>
+			<tbody>
+				<?php  
+				
+				for($i = 2014; $i <= 2034; $i++) { ?>
+					
+				<tr>
+					<td><?php echo $i ; ?></td>
+					<td><?php echo (($i - 2014) + $client['age']) ; ?></td>
+				</tr>
+				
+				<?php } ?>
+			</tbody>
+		</table>
+	</div><!-- END col-md column -->
 
 </div>
 

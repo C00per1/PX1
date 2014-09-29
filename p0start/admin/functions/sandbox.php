@@ -84,4 +84,36 @@ function windDirection($windBearing) {
 	return $dir;
 };
 
+//Client FRA by YOB
+function findFullRetirementAge($year) {
+	if($year <= 1937) {
+		$clientFRA = 65*12;
+	} elseif($year == 1938) {
+		$clientFRA = 65*12+2;
+	} elseif($year == 1939) {
+		$clientFRA = 65*12+4;
+	} elseif($year == 1940) {
+		$clientFRA = 65*12+6;
+	} elseif($year == 1941) {
+		$clientFRA = 65*12+8;
+	} elseif($year == 1942) {
+		$clientFRA = 65*12+10;
+	} elseif($year >= 1943 && $year <= 1954) {
+		$clientFRA = 66*12;
+	} elseif($year == 1955) {
+		$clientFRA = 66*12+2;
+	} elseif($year == 1956) {
+		$clientFRA = 66*12+4;
+	} elseif($year == 1957) {
+		$clientFRA = 66*12+6;
+	} elseif($year == 1958) {
+		$clientFRA = 66*12+8;
+	} elseif($year == 1959) {
+		$clientFRA = 66*12+10;
+	} else {
+		$clientFRA = 67*12;
+	}
+	return $clientFRA;
+};
+
 ?>

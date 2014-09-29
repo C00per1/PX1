@@ -160,14 +160,16 @@
 				$first = mysqli_real_escape_string($dbc, $_POST['first']);
 				$last = mysqli_real_escape_string($dbc, $_POST['last']);
 				$dob = mysqli_real_escape_string($dbc, $_POST['dob']);
+				$year = date('Y', strtotime($dob));
+				$fra = findFullRetirementAge($year);
 				
 				if(isset($_POST['id']) != '') {
 					$action = 'updated';
-					$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob' WHERE id = $_GET[id]";
+					$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob', fullRetirementAgeMonths = $fra WHERE id = $_GET[id]";
 						
 				} else {
 					$action = 'added';
-					$q = "INSERT INTO clients (first, last, status, dob) VALUES ('$first', '$last', '$_POST[status]', '$dob')";
+					$q = "INSERT INTO clients (first, last, status, dob, fullRetirementAgeMonths) VALUES ('$first', '$last', '$_POST[status]', '$dob', $fra)";
 					
 				}
 
