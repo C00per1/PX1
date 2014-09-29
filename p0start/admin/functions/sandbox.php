@@ -1,15 +1,13 @@
 <?php
 
+//Determine equality between two variables
 function selected($value1, $value2, $return) {
-	
-	if($value1 == $value2) {
-		
-		echo $return;
-		
-	}
-	
+	if($value1 == $value2) {	
+		echo $return;	
+	}	
 };					
 
+//Navigation path
 function get_path() {
   $path = array();
   if (isset($_SERVER['REQUEST_URI'])) {
@@ -34,6 +32,7 @@ function get_path() {
 return $path;
 };
 
+//Geolocate from zip code
 function UNUSEDgeoLocate($addr) {
   $geoapi = "http://maps.googleapis.com/maps/api/geocode/json";
   $params = 'address='.str_replace(" ", "+", $addr).'&sensor=false';
@@ -45,6 +44,7 @@ function UNUSEDgeoLocate($addr) {
   );
 };
 
+//Wind direction from numerical bearing for weather app
 function windDirection($windBearing) {
 	if ($windBearing < 11.25) {
 		$dir = "N";

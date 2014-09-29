@@ -59,7 +59,7 @@
 				
 				<tr>
 					<td>
-						<p><strong>Life Expectance:</strong></p>
+						<p><strong>Life Expectancy:</strong></p>
 					</td>
 					<td>
 						<p><?php echo $client['le']; ?></p>

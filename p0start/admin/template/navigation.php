@@ -14,7 +14,7 @@
     	<!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
-	      	
+			
 	        <li><a href="?page=dashboard">Dashboard</a></li>
 	        <li><a href="?page=pages">Pages</a></li>
 	        <li><a href="?page=navigation">Navigation</a></li>

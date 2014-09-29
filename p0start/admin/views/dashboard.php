@@ -1,7 +1,7 @@
 <body class="animated fadeIn">
 	<section class="section">
 		<div class="content">
-			<div class="row margin-top">
+			<div class="row">
 				<div class="col-md-12 content-header">
 						<h2 class="content-title">Welcome to the Dashboard</h2>
 				</div><!-- END content-header -->

@@ -43,8 +43,9 @@
     height: auto !important;
     height: 100%;
     /* Negative indent footer by it's height */
-    margin-top: 5%;
-    padding-bottom: -60px
+    padding-top: 5%;
+    padding-bottom: 7%;
+    margin: 0 auto -60px
   }
 
   /* Set the fixed height of the footer here */
@@ -558,5 +559,36 @@
 	.fa-cube {
 		color: black;
 	}
+/*==================================================
+=            Bootstrap 3 Media Queries             =
+==================================================*/
+
+    /*==========  Mobile First Method  ==========*/
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (min-width : 320px) {
+
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (min-width : 480px) {
+
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) {
+
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+
+    }
+
 
 </style>

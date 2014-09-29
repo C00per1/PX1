@@ -25,6 +25,6 @@ if(!isset($_SESSION['username'])) {
 	
 	<body>
 		
-		<div id="wrap">
+		<div class="container-fluid" id="wrap">
 			
 			<? include(D_TEMPLATE.'/navigation.php'); // Main Navigation ?>
