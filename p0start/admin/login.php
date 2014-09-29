@@ -70,7 +70,7 @@ if($_POST) {
 							
 							<div class="panel-footer login">
 								<p>
-									<a>Forgot your password?</a>
+									<a class="btn-resetPassword">Forgot your password?</a>
 								</p>
 							</div>
 								

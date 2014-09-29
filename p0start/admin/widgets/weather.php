@@ -67,7 +67,7 @@ $condition_hourly = $forecast->getForecastToday($latitude, $longitude);
 			
 		<a rel="popover" data-toggle="popover" data-trigger="hover" class="list-group-item db bg-ltgrey" data-html="true" data-container="body" title="Extended Outlook: <?php echo $conditions_week[$i]->getTime('l') ; ?>" data-placement="right" 
 			data-content="<?php include('weatherExtended.php') ; ?>">
-			<canvas class="pull-right" value="<?php echo $conditions_week[$i]->getIcon() ; ?>" id="<?php echo $i ; ?>" width="18" height="18"></canvas>
+			<canvas class="pull-right" value="<?php echo $conditions_week[$i]->getIcon() ; ?>" id="<?php echo $i ; ?>" width="20" height="20"></canvas>
 			<div class="pull-right" style="margin-left: 5px"><?php echo round($conditions_week[$i]->getMaxTemperature()) ; ?>&deg;</div>
 			<?php echo $conditions_week[$i]->getTime('l') ; ?>
 			<div class="progress" style="margin-top: 10px; margin-bottom: 5px">

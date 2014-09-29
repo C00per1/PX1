@@ -35,6 +35,9 @@
 	      			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $user['fullname'].' '; ?><b class="caret"></b></a>
 	      			<ul class="dropdown-menu">
 	      				<li><a href="#">Account</a></li>
+	      				<li><a href="#">Help</a></li>
+	      				<li><a href="#">Contact</a></li>
+	      				<li class="divider"></li>
 	      				<li><a href="logout.php">Logout</a></li>
 	      			</ul>
 	      		</li>

@@ -28,11 +28,13 @@
 
   html,
   body {
-  	height: 100%
-    /*margin-bottom: 60px;*/
+  	height: 100%;
+
     /* The html and body elements cannot have any padding or margin. */
   }
-
+  body {
+  	background-color: #ecf0f1;
+  }
   /* Wrapper for page content to push down footer */
   #wrap {
   	color: inherit;
@@ -41,9 +43,8 @@
     height: auto !important;
     height: 100%;
     /* Negative indent footer by it's height */
-    margin-top: 40px;
-    margin-bottom: -60px;
-    padding: 0 0 60px
+    margin-top: 5%;
+    padding-bottom: -60px
   }
 
   /* Set the fixed height of the footer here */
@@ -64,7 +65,10 @@
 	  	background-color: #FFFFFF;
 	  	box-shadow: 2px 2px 5px #CCCCCC;
 	 }
-	  	
+	 .dropdown-menu {
+	 	background-color: #f8f8f8;
+	 	border-color: #e7e7e7;
+	 }
 	 #authentication {
 	 	color: white;
 	 	background-color: #333333;
@@ -147,7 +151,7 @@
 		background-color: #333333 !important;
 		border: none;
 	}
-	p a {
+	.btn-resetPassword {
 		font-family: "AtlasTypewriterRegular", "Andale Mono", "Consolas", "Lucida Console", "Menlo", "Luxi Mono", monospace;
 		color: black;
 		cursor: pointer;

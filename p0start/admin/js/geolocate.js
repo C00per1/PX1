@@ -3,11 +3,12 @@
     'use strict';
     	
 	var geocoder;
-	var map;
+	//var map;
 	function initialize() {
 	  geocoder = new google.maps.Geocoder();
-	  var latlng = new google.maps.LatLng(-34.397, 150.644);
 /*
+	  var latlng = new google.maps.LatLng(-34.397, 150.644);
+
 	  var mapOptions = {
 	    zoom: 8,
 	    center: latlng
@@ -17,7 +18,7 @@
 	}
 	
 	function codeAddress() {
-	  var address = document.getElementById('address').value;
+	  var address = document.getElementById('inputZipCode').value;
 	  geocoder.geocode( { 'address': address}, function(results, status) {
 	    if (status == google.maps.GeocoderStatus.OK) {
 	      map.setCenter(results[0].geometry.location);
