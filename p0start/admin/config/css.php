@@ -74,7 +74,9 @@
 	 	color: white;
 	 	background-color: #333333;
 	 } 
-	  
+	 .table-hover.color-hover tbody tr:hover td {
+	 	background-color: #8FBC8F;
+	 } 
 	.form-signin {
 		padding: 10px;
 		margin: 0 auto;
@@ -559,6 +561,23 @@
 	.fa-cube {
 		color: black;
 	}
+	#top-link-block.affix-top {
+	    position: absolute; /* allows it to "slide" up into view */
+	    bottom: -82px; /* negative of the offset - height of link element */
+	    right: 10px; /* padding from the left side of the window */
+	}
+	#top-link-block.affix {
+	    position: fixed; /* keeps it on the bottom once in view */
+	    bottom: 10px; /* height of link element */
+	    right: 10px; /* padding from the left side of the window */
+	    padding-bottom: 10px;
+	}
+	.stickyButton {
+	    position: fixed;
+	    bottom: 55px;
+	    right: 10px;
+	}
+	
 /*==================================================
 =            Bootstrap 3 Media Queries             =
 ==================================================*/

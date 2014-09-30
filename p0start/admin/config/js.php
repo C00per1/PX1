@@ -105,8 +105,6 @@
 				
 			});
 			
-			
-			
 			event.preventDefault();
 		});	
 		
@@ -157,6 +155,23 @@
 		// ACTIVATE progressbar.js
 		$('.progress .progress-bar').progressbar();
 		
+		//Scrolling back to top button
+		if ( ($(window).height() + 750) < $(document).height() ) {
+		    $('#top-link-block').removeClass('hidden').affix({
+		        // how far to scroll down before link "slides" into view
+		        offset: {top:100}
+		    });
+		};
+	
+		if (!!$('.sticky').offset()) { // make sure ".sticky" element exists
+			//Scrolling close button for clientview
+			var stickyTop = $('.sticky').offset().top;
+			$(window).scroll(function(){ // scroll event
+	 
+	    	var windowTop = $(window).scrollTop(); // returns number
+	 
+	  		});
+	  	};
 		
 	}); // END document.ready();
 	

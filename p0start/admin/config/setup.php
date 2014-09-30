@@ -15,6 +15,7 @@ DEFINE('D_TEMPLATE', 'template');
 include('functions/data.php');
 include('functions/template.php');
 include('functions/sandbox.php');
+include('functions/calculate.php');
 
 # Site Settings
 $debug = data_setting_value($dbc, 'debug-status');

@@ -161,7 +161,7 @@
 				$last = mysqli_real_escape_string($dbc, $_POST['last']);
 				$dob = mysqli_real_escape_string($dbc, $_POST['dob']);
 				$year = date('Y', strtotime($dob));
-				$fra = findFullRetirementAge($year);
+				$fra = findFullRetirementAgeMonths($year);
 				
 				if(isset($_POST['id']) != '') {
 					$action = 'updated';

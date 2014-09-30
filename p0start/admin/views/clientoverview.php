@@ -7,7 +7,7 @@
 </div><!-- END container -->
 			
 <?php
-
+//include('functions/sandbox.php');
 	//$q = "UPDATE clients SET age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)) WHERE id = $_GET[id]";
 	//$r = mysqli_query($dbc, $q);
 	
@@ -22,7 +22,7 @@
 	<div class="col-md-4 col-md-offset-1">
 		
 		<table class="table table-hover">
-			
+			<p><?php print $final; ?></p>
 			<thead>
 				<th></th>
 				<th data-field="id"><?php echo $client['fullname']; ?></th>
@@ -83,60 +83,64 @@
 </div>
 <div class="row">
 	<div class="col-md-4 col-md-offset-1">
-		<table class="table table-hover">
+		<table class="table table-hover color-hover">
 			<thead>
 				<th>Year</th>
 				<th>Age</th>
+				<th>Income</th>
 			</thead>
 			<tbody>
 				<?php  
-				
-				for($i = date("Y"); $i <= date("Y") + $client['lifeExpectancy']; $i++) { ?>
+				for($i = date("Y"); $i <= (date("Y") + $client['lifeExpectancy']); $i++) { ?>
 					
 				<tr>
 					<td><?php echo $i ; ?></td>
 					<td><?php echo (($i - 2014) + $client['age']) ; ?></td>
+					<td>$18,000</td>
 				</tr>
-				
-				<?php } ?>
+				<?php } ; ?>
+
 			</tbody>
 		</table>
 	</div><!-- END col-md column -->
 	
 		<div class="col-md-4 col-md-offset-1">
-		<table class="table table-hover">
+		<table class="table table-hover color-hover">
 			<thead>
 				<th>Date</th>
 				<th>Age</th>
+				<th>Income</th>
 			</thead>
 			<tbody>
-			<?php  
-			$dob      = date("Y-m-d", strtotime($client['dob']));
-			$today    = date("Y-m-d");
-			$start    = (new DateTime($today))->modify('first day of this month');
-			$end      = (new DateTime('2034-05-06'))->modify('first day of this month');
-			$interval = DateInterval::createFromDateString('1 month');
-			$period   = new DatePeriod($start, $interval, $end);
-			$ageT	  = $client['age'];
-			
 
-			function ageT($time1, $time2) {
-				$intervalT = date_diff($time1, $time2);
-				echo $intervalT->m + ($intervalT->y * 12);
-			}
-			
-			foreach ($period as $dt) {
-				$ageT += 1; ?>
-			<tr>
-			    <td><?php echo $dt->format("Y-m") ; ?></td>
-			    <td><?php echo $ageT ; ?></td>
-			</tr>
-			<?php } ?>
+				<?php 
+				$y = $client['lifeExpectancy'];
+				$x = date("Y-m-d", strtotime($client['dob']));
+				$result = monthlyData($x, $y);
+				$annualInflation = 0.045;
+				$money = 1500;
 
+				for($i = 0; $i < arrayCount($result); $i++) {
+					(date("m", strtotime($result[$i][0])) == 1) ? $z = 1 : $z = 0;
+					$growth = ($z == 0) ? 0 : $annualInflation*$z*$money;
+					$money += $growth;
+					
+					 ?>
+				<tr>
+				    <td><?php echo $result[$i][0] ?></td>
+				    <td><?php echo $result[$i][1] ; ?></td>
+				    <td><?php echo '$'.number_format(floor($money)) ; ?></td>
+				</tr>
+				<?php } ?>
 			</tbody>
 		</table>
 	</div><!-- END col-md column -->
 
 </div>
 
-<p class="pull-right" style="padding-right: 10%"><a href="?page=clients&id=<?php echo $_GET[id]; ?>" class="btn btn-default">Close</a></p>
+<span class="pull-right stickyButton">
+    <a href="?page=clients&id=<?php echo $_GET[id]; ?>" class="well well-sm">
+        <i class="glyphicon glyphicon-chevron-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;Return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </a>
+</span><!-- /top-link-block -->
+<!--<p class="pull-right" style="padding-right: 10%"><a href="?page=clients&id=<?php// echo $_GET[id]; ?>" class="btn btn-default">Close</a></p>-->
