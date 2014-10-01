@@ -209,8 +209,47 @@
 	
 		case 'clientoverview':
 		
-			$q = "UPDATE clients SET age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)) WHERE id = $_GET[id]";
-			$r = mysqli_query($dbc, $q);
+			if(isset($_POST['submitted']) == 1) {
+	
+				$pia = mysqli_real_escape_string($dbc, $_POST['pia']);
+				$cola = mysqli_real_escape_string($dbc, $_POST['cola']);
+				
+				if(isset($_POST['id']) != '') {
+					$action = 'updated';
+					$q = "UPDATE clients SET age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)), pia = '$pia', cola = '$cola' WHERE id = $_POST[id]";
+					$r = mysqli_query($dbc, $q);
+					
+				}
+				
+				if($r) {
+					//$message = '<p class="bg-success">Page was '.$action.'!</>';
+					$message = '
+						<div class="alert alert-success alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert">
+								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+							</button>
+							<strong>Success!</strong> Setting was '.$action.'!
+						</div>';
+					
+				} else {
+					
+					//$message = '<p class="bg-warning">Page could not be '.$action.' because: '.mysqli_error($dbc).'</p>';
+					//$message .= '<p>Query: '.$q.'</p>';
+					$message = '
+						<div class="alert alert-warning alert-dismissible" role="alert">
+  							<button type="button" class="close" data-dismiss="alert">
+  								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+  							</button>
+  							<strong>Warning!</strong> 
+  							<p>Setting could not be '.$action.' because: '.mysqli_error($dbc).'</p>
+  							<p>Query: '.$q.'</p>
+						</div>
+					';
+					
+				}
+			}
+
+			if(isset($_GET['id'])) { $opened = data_client($dbc, $_GET['id']); }
 			
 		break;
 		

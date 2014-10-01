@@ -32,7 +32,7 @@ function findFullRetirementAgeMonths($year) {
 };
 
 //Generate array of date, age, income
-function monthlyData($x, $y) {
+function monthlyData($x, $y, $annualInflation, $pia) {
 	//$dob = $x;
 	$today = date("Y-m-d");
 	$start = (new DateTime($today))->modify('first day of this month');
@@ -41,15 +41,23 @@ function monthlyData($x, $y) {
 	$interval = DateInterval::createFromDateString('1 month');
 	$period = new DatePeriod($start, $interval, $end);
 	$array = array();
+	$total = 0;
+	$i = 0;
+	$thisPia = $pia;
 	
 	foreach ($period as $dt) {
 		//$dateAdd = date_add($date, date_interval_create_from_date_string('1 month'));
+		$i += 1;
 		$dateIncrement = $dt->format("Y-m-t");
 		$dateFormat = $dt->format("Y-m");
 		$ageCalc = date_diff(date_create($dateIncrement), date_create($x));
 		$ageFormat = $ageCalc->format('%Y-%m');
-		
-		array_push ($array, array($dateFormat, $ageFormat));
+
+		(date("m", strtotime($dateIncrement)) == 1) ? $z = 1 : $z = 0;
+		$growth = ($z == 0) ? 0 : $annualInflation*$z*$thisPia;
+		$thisPia += $growth;
+		$total += $thisPia;
+		array_push($array, array($dateFormat, $ageFormat, $thisPia, $total));
 	};
 	return $array;
 };
@@ -57,6 +65,10 @@ function monthlyData($x, $y) {
 function arrayCount($a) {
 	$c = count($a);
 	return $c;
+};
+
+function lifeExpectancy() {
+	
 };
 
 ?>

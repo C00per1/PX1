@@ -1,31 +1,23 @@
 <div class="container">
 	
 	<h3>Client Overview</h3>
-
+<?php 
+//echo '<pre>';
+//echo print_r($opened);
+//echo '</pre>';
+?>
 	<?php if(isset($message)) { echo $message; } ?>
 	
 </div><!-- END container -->
-			
-<?php
-//include('functions/sandbox.php');
-	//$q = "UPDATE clients SET age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)) WHERE id = $_GET[id]";
-	//$r = mysqli_query($dbc, $q);
-	
-	//$q = "UPDATE clients SET age = TIMESTAMPDIFF(YEAR,dob,CURDATE()) WHERE id = $_GET[id]";
-	//$r = mysqli_query($dbc, $q);
-					
-	//$data = mysqli_fetch_assoc($r);
-	
-?>
 
 <div class="row" style="margin-top: 2%">
 	<div class="col-md-4 col-md-offset-1">
 		
 		<table class="table table-hover">
-			<p><?php print $final; ?></p>
+			
 			<thead>
 				<th></th>
-				<th data-field="id"><?php echo $client['fullname']; ?></th>
+				<th data-field="id"><?php echo $opened['fullname']; ?></th>
 			</thead>
 			
 			<tbody>
@@ -35,7 +27,7 @@
 						<p><strong>Date of Birth:</strong></p>
 					</td>
 					<td>
-						<p><?php echo $client['dob']; ?></p>
+						<p><?php echo $opened['dob']; ?></p>
 					</td>
 				</tr>
 				
@@ -44,7 +36,7 @@
 						<p><strong>Current Age:</strong></p>
 					</td>
 					<td>
-						<p><?php echo $client['age']; ?></p>
+						<p><?php echo $opened['age']; ?></p>
 					</td>
 				</tr>
 				
@@ -54,12 +46,12 @@
 					</td>
 					<td>
 						<p><?php
-							if(($client['fullRetirementAgeMonths'] % 12) == 0) {
+							if(($opened['fullRetirementAgeMonths'] % 12) == 0) {
 								$remainder = '';
 							} else {
-								$remainder = "-".round($client['fullRetirementAgeMonths'] % 12);
+								$remainder = "-".round($opened['fullRetirementAgeMonths'] % 12);
 							};
-							echo floor(($client['fullRetirementAgeMonths']/12)).$remainder;
+							echo floor(($opened['fullRetirementAgeMonths']/12)).$remainder;
 							
 							?>
 						</p>
@@ -71,17 +63,51 @@
 						<p><strong>Life Expectancy:</strong></p>
 					</td>
 					<td>
-						<p><?php echo $client['lifeExpectancy']; ?></p>
+						<p><?php echo $opened['lifeExpectancy']; ?></p>
 					</td>
 				</tr>
-			
+
 			</tbody>
 			
 		</table><!-- END table -->
+		<div class="row">
+			<form class="form-inline" style="margin-left: 10px" action="?page=clientoverview&id=<?php echo $opened['id']; ?>" method="post" role="form">
+				<div class="form-group col-md-4">
+					<label for="pia">PIA:</label>
+					<div class="input-group">
+						<input class="form-control blur-save" data-id="<?php echo $opened['id'] ; ?>" data-label="Client PIA" data-db="clients-pia" type="number" name="pia" id="pia" value="<?php echo $opened['pia']; ?>" placeholder="PIA" autocomplete="off" />
+					</div>
+				</div>
 	
+				<div class="form-group col-md-4">
+					<label for="cola">COLA:</label>
+					<div class="input-group">
+						<input class="form-control blur-save" data-id="<?php echo $opened['id'] ; ?>" data-label="Client COLA" data-db="clients-cola" type="number" name="cola" id="cola" value="<?php echo $opened['cola']; ?>" placeholder="COLA" autocomplete="off" />
+					</div>
+				</div>
+				
+				<div class="form-group col-md-4" style="margin-top: 35px">
+				    <a href="?page=clientoverview&id=<?php echo $opened['id']; ?>" class="well well-sm">
+				        <i class="glyphicon glyphicon-chevron-right"></i> Go
+				    </a>
+				</div>
+			</form>
+		</div>
+	<?php
+	$y = $opened['lifeExpectancy'];
+	$x = date("Y-m-d", strtotime($opened['dob']));
+	$annualInflation = $opened['cola']/100;
+	$pia = $opened['pia'];
+	$result = monthlyData($x, $y, $annualInflation, $pia);
+	$lastItem = arrayCount($result) - 1;
+	?>	
 	</div><!-- END col-md column -->
+	<div class="col-md-4 col-md-offset-1">
+		<h3>Lifetime Total: &nbsp;<strong>$ <?php echo number_format(floor($result[$lastItem][3])) ; ?></strong></h3>
+	</div>
 </div>
-<div class="row">
+
+<div class="row" style="margin-top: 1%">
 	<div class="col-md-4 col-md-offset-1">
 		<table class="table table-hover color-hover">
 			<thead>
@@ -91,11 +117,11 @@
 			</thead>
 			<tbody>
 				<?php  
-				for($i = date("Y"); $i <= (date("Y") + $client['lifeExpectancy']); $i++) { ?>
+				for($i = date("Y"); $i <= (date("Y") + $opened['lifeExpectancy']); $i++) { ?>
 					
 				<tr>
 					<td><?php echo $i ; ?></td>
-					<td><?php echo (($i - 2014) + $client['age']) ; ?></td>
+					<td><?php echo (($i - 2014) + $opened['age']) ; ?></td>
 					<td>$18,000</td>
 				</tr>
 				<?php } ; ?>
@@ -109,27 +135,19 @@
 			<thead>
 				<th>Date</th>
 				<th>Age</th>
-				<th>Income</th>
+				<th>PIA</th>
+				<th>Total</th>
 			</thead>
 			<tbody>
 
-				<?php 
-				$y = $client['lifeExpectancy'];
-				$x = date("Y-m-d", strtotime($client['dob']));
-				$result = monthlyData($x, $y);
-				$annualInflation = 0.045;
-				$money = 1500;
+				<?php
 
-				for($i = 0; $i < arrayCount($result); $i++) {
-					(date("m", strtotime($result[$i][0])) == 1) ? $z = 1 : $z = 0;
-					$growth = ($z == 0) ? 0 : $annualInflation*$z*$money;
-					$money += $growth;
-					
-					 ?>
+				for($i = 0; $i < arrayCount($result); $i++) { ?>
 				<tr>
-				    <td><?php echo $result[$i][0] ?></td>
+				    <td><?php echo $result[$i][0] ; ?></td>
 				    <td><?php echo $result[$i][1] ; ?></td>
-				    <td><?php echo '$'.number_format(floor($money)) ; ?></td>
+				    <td>$<?php echo number_format(floor($result[$i][2])) ; ?></td>
+				    <td>$<?php echo number_format(floor($result[$i][3])) ; ?></td>
 				</tr>
 				<?php } ?>
 			</tbody>
@@ -139,8 +157,10 @@
 </div>
 
 <span class="pull-right stickyButton">
-    <a href="?page=clients&id=<?php echo $_GET[id]; ?>" class="well well-sm">
-        <i class="glyphicon glyphicon-chevron-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;Return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="?page=clients&id=<?php echo $opened['id']; ?>" class="well well-sm">
+        <i class="glyphicon glyphicon-chevron-left"></i> Back
     </a>
 </span><!-- /top-link-block -->
-<!--<p class="pull-right" style="padding-right: 10%"><a href="?page=clients&id=<?php// echo $_GET[id]; ?>" class="btn btn-default">Close</a></p>-->
+
+<input type="hidden" name="submitted" value="1" />
+<input type="hidden" name="openedid" value="<?php echo $opened['id']; ?>" />

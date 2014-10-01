@@ -42,9 +42,8 @@
 <script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
 <script src="http://code.highcharts.com/mapdata/custom/world.js"></script>
 <script src="js/sandsignika.js"></script>
--->
-
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+-->
 
 <script>
 	
@@ -94,7 +93,6 @@
 			var navID = $('input[name=id]').val();
 			
 			$.ajax({
-				
 				url: "ajax/navigation.php",
 				type: "POST",
 				data: navData
@@ -106,7 +104,7 @@
 			});
 			
 			event.preventDefault();
-		});	
+		});
 		
     	$("canvas").each(function(){
     		var a = new Skycons({color: "#ecf0f1"});
