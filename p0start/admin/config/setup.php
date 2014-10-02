@@ -42,6 +42,6 @@ $path = get_path();
 $user = data_user($dbc, $_SESSION['username']);
 
 #Client Setup:
-$client = data_client($dbc, $_GET['id']);
+//$client = data_client($dbc, $_GET['id']);
 
 ?>

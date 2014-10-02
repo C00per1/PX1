@@ -1,11 +1,27 @@
 <div class="container">
 	
 	<h3>Client Overview</h3>
-<?php 
-//echo '<pre>';
-//echo print_r($opened);
-//echo '</pre>';
-?>
+	<?php
+	$z = $opened['gender'];
+	$a = $opened['age'];
+	$lifeRemaining = lifeExpectancy($z, $a);
+	$exLifeRemaining = explode('.', $lifeRemaining);
+	$lifeRemainingY = $exLifeRemaining[0];
+	$lifeRemainingM = round('.'.$exLifeRemaining[1]*12);
+	$ageDeath = $lifeRemaining + $a;
+	$leMonths = $lifeRemainingY*12 + $lifeRemainingM;
+	
+	//$y = $opened['lifeExpectancy'];
+	$x = date("Y-m-d", strtotime($opened['dob']));
+	$annualInflation = $opened['cola']/100;
+	$pia = $opened['pia'];
+	$result = monthlyData($x, $lifeRemaining, $annualInflation, $pia);
+	$lastItem = count($result) - 1;
+	//echo '<pre>';
+	//print_r($result);
+	//echo '</pre>';
+	?>
+
 	<?php if(isset($message)) { echo $message; } ?>
 	
 </div><!-- END container -->
@@ -63,7 +79,7 @@
 						<p><strong>Life Expectancy:</strong></p>
 					</td>
 					<td>
-						<p><?php echo $opened['lifeExpectancy']; ?></p>
+						<p><?php echo $lifeRemainingY.'-'.$lifeRemainingM; ?></p>
 					</td>
 				</tr>
 
@@ -93,14 +109,7 @@
 				</div>
 			</form>
 		</div>
-	<?php
-	$y = $opened['lifeExpectancy'];
-	$x = date("Y-m-d", strtotime($opened['dob']));
-	$annualInflation = $opened['cola']/100;
-	$pia = $opened['pia'];
-	$result = monthlyData($x, $y, $annualInflation, $pia);
-	$lastItem = arrayCount($result) - 1;
-	?>	
+	
 	</div><!-- END col-md column -->
 	<div class="col-md-4 col-md-offset-1">
 		<h3>Lifetime Total: &nbsp;<strong>$ <?php echo number_format(floor($result[$lastItem][3])) ; ?></strong></h3>
@@ -117,12 +126,18 @@
 			</thead>
 			<tbody>
 				<?php  
-				for($i = date("Y"); $i <= (date("Y") + $opened['lifeExpectancy']); $i++) { ?>
+				for($i = 0; $i <= count($result); $i+=12) {
+					$resultYearEx = explode('-', $result[$i][0]);
+					$resultAgeEx = explode('-', $result[$i][1]);
+					$end = date("Y", $result[$lastItem][0]);
+					$sum = 0;
+					?>
 					
 				<tr>
-					<td><?php echo $i ; ?></td>
-					<td><?php echo (($i - 2014) + $opened['age']) ; ?></td>
-					<td>$18,000</td>
+					<td><?php echo $resultYearEx[0] ; ?></td>
+					<td><?php echo $resultAgeEx[0] ; ?></td>
+
+					<td><?php echo '$'.number_format(round($sum)) ; ?></td>
 				</tr>
 				<?php } ; ?>
 
@@ -142,7 +157,7 @@
 
 				<?php
 
-				for($i = 0; $i < arrayCount($result); $i++) { ?>
+				for($i = 0; $i < count($result); $i++) { ?>
 				<tr>
 				    <td><?php echo $result[$i][0] ; ?></td>
 				    <td><?php echo $result[$i][1] ; ?></td>

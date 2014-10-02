@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="margin-bottom: 10px">
 	<h1>Client Manager</h1>
 </div>
 
@@ -41,36 +41,51 @@
 					<?php if(isset($message)) { echo $message; } ?>
 				
 			<form action="?page=clients&id=<?php echo $opened['id']; ?>" method="post" role="form">
-				
-				<div class="form-group">
-					
-					<label for="first">First</label>
-					<input class="form-control" type="text" name="first" id="first" value="<?php echo $opened['first']; ?>" placeholder="First Name" autocomplete="off" />
-					
-				</div>
-				
-				<div class="form-group">
-					
-					<label for="last">Last</label>
-					<input class="form-control" type="text" name="last" id="last" value="<?php echo $opened['last']; ?>" placeholder="Last Name" autocomplete="off" />
-					
-				</div>
-				
-				<div class="form-group">
-					
-					<label for="status">Status</label>
-					<select class="form-control" name="status" id="status">
+				<div class="row">
+					<div class="form-group col-md-6">
 						
-						<option value="0" <?php if(isset($_GET['id'])) { selected('0', $opened['status'], 'selected'); } ?>>Inactive</option>
-						<option value="1" <?php if(isset($_GET['id'])) { selected('1', $opened['status'], 'selected'); } ?>>Active</option>
+						<label for="first">First</label>
+						<input class="form-control" type="text" name="first" id="first" value="<?php echo $opened['first']; ?>" placeholder="First Name" autocomplete="off" />
 						
-					</select>
+					</div>
 					
+					<div class="form-group col-md-6">
+						
+						<label for="last">Last</label>
+						<input class="form-control" type="text" name="last" id="last" value="<?php echo $opened['last']; ?>" placeholder="Last Name" autocomplete="off" />
+						
+					</div>
 				</div>
 				
-				<div class="form-group">
-					<label for="dob">DOB</label>
-					<input class="form-control" type="date" name="dob" id="dob" value="<?php echo $opened['dob']; ?>" autocomplete="off" />
+				<div class="row">
+					<div class="form-group col-md-4">
+						
+						<label for="status">Marital Status</label>
+						<select class="form-control" name="status" id="status">
+							
+							<option value="0" <?php if(isset($_GET['id'])) { selected('0', $opened['status'], 'selected'); } ?>>Single</option>
+							<option value="1" <?php if(isset($_GET['id'])) { selected('1', $opened['status'], 'selected'); } ?>>Married</option>
+							
+						</select>
+						
+					</div>
+					
+					<div class="form-group col-md-4">
+						
+						<label for="status">Gender</label>
+						<select class="form-control" name="gender" id="gender">
+							
+							<option value="0" <?php if(isset($_GET['id'])) { selected('0', $opened['gender'], 'selected'); } ?>>Male</option>
+							<option value="1" <?php if(isset($_GET['id'])) { selected('1', $opened['gender'], 'selected'); } ?>>Female</option>
+							
+						</select>
+						
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label for="dob">DOB</label>
+						<input class="form-control" type="date" name="dob" id="dob" value="<?php echo $opened['dob']; ?>" autocomplete="off" />
+					</div>
 				</div>
 				
 				<div class="pull-right">
