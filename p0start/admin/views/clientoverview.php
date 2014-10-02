@@ -7,11 +7,10 @@
 	$lifeRemaining = lifeExpectancy($z, $a);
 	$exLifeRemaining = explode('.', $lifeRemaining);
 	$lifeRemainingY = $exLifeRemaining[0];
-	$lifeRemainingM = round('.'.$exLifeRemaining[1]*12);
+	$lifeRemainingM = round($exLifeRemaining[1]*12/100);
 	$ageDeath = $lifeRemaining + $a;
 	$leMonths = $lifeRemainingY*12 + $lifeRemainingM;
-	
-	//$y = $opened['lifeExpectancy'];
+
 	$x = date("Y-m-d", strtotime($opened['dob']));
 	$annualInflation = $opened['cola']/100;
 	$pia = $opened['pia'];
@@ -130,7 +129,7 @@
 					$resultYearEx = explode('-', $result[$i][0]);
 					$resultAgeEx = explode('-', $result[$i][1]);
 					$end = date("Y", $result[$lastItem][0]);
-					$sum = 0;
+					$sum = 12000;
 					?>
 					
 				<tr>
