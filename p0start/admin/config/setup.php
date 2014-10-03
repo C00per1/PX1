@@ -2,7 +2,7 @@
 // Setup Files:
 
 #Error Reporting
-error_reporting(0);
+error_reporting(2);
 
 #Database Connection
 include('../config/connection.php');

@@ -39,10 +39,10 @@ function monthlyData($x, $y, $annualInflation, $pia, $ageToFraMonths, $ageToSixt
 	$leMonth = round($lifeEx[1]*12/100);
 
 	$today = date("Y-m-d");
-	if ($ageToSixtyTwoBool == TRUE) {
+	/*if ($ageToSixtyTwoBool == TRUE) {
 		$newDobYear = $dobYear + 62;
 		$today = date("Y-m-d", strtotime($newDobYear."-".$dobMonth."-".$dobDay));
-	};
+	};*/
 
 	$start = (new DateTime($today))->modify('first day of this month');
 	$end = new DateTime();
