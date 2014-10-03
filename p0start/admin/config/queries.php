@@ -165,11 +165,11 @@
 				
 				if(isset($_POST['id']) != '') {
 					$action = 'updated';
-					$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob', fullRetirementAgeMonths = $fra, gender = $_POST[gender] WHERE id = $_GET[id]";
+					$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob', fullRetirementAgeMonths = $fra, age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)), gender = $_POST[gender] WHERE id = $_GET[id]";
 						
 				} else {
 					$action = 'added';
-					$q = "INSERT INTO clients (first, last, status, dob, fullRetirementAgeMonths, gender) VALUES ('$first', '$last', '$_POST[status]', '$dob', $fra, $_POST[gender])";
+					$q = "INSERT INTO clients (first, last, status, dob, fullRetirementAgeMonths, age, gender) VALUES ('$first', '$last', '$_POST[status]', '$dob', $fra, YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)), $_POST[gender])";
 					
 				}
 
@@ -213,6 +213,7 @@
 	
 				$pia = mysqli_real_escape_string($dbc, $_POST['pia']);
 				$cola = mysqli_real_escape_string($dbc, $_POST['cola']);
+				$dob = mysqli_real_escape_string($dbc, $_POST['dob']);
 				
 				if(isset($_POST['id']) != '') {
 					$action = 'updated';

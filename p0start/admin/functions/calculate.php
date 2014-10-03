@@ -31,25 +31,31 @@ function findFullRetirementAgeMonths($year) {
 	return $clientFRA;
 };
 
-//Generate array of date, age, income
-//input dob, lifeRemaining, annualInflation, pia
-function monthlyData($x, $y, $annualInflation, $pia) {
+//Generate array
+//input dob, lifeRemaining, annualInflation, pia, ageToFraMonths
+function monthlyData($x, $y, $annualInflation, $pia, $ageToFraMonths, $ageToSixtyTwoBool, $dobYear, $dobMonth, $dobDay) {
 	$lifeEx = explode('.', $y);
 	$leYear = $lifeEx[0];
-	$leMonth = round('.'.$lifeEx[1]*12);
-	
+	$leMonth = round($lifeEx[1]*12/100);
+
 	$today = date("Y-m-d");
+	if ($ageToSixtyTwoBool == TRUE) {
+		$newDobYear = $dobYear + 62;
+		$today = date("Y-m-d", strtotime($newDobYear."-".$dobMonth."-".$dobDay));
+	};
+
 	$start = (new DateTime($today))->modify('first day of this month');
 	$end = new DateTime();
 	
 	//TO DO: add months to end interval
-	$end->add(new DateInterval('P'.$leYear.'Y'.$leMonth.'M'));
+	$end->add(new DateInterval('P'.$leYear.'Y'/*.$leMonth.'M'*/));
 	$interval = DateInterval::createFromDateString('1 month');
 	$period = new DatePeriod($start, $interval, $end);
 	$array = array();
 	$total = 0;
 	$i = 0;
 	$thisPia = $pia;
+	//(date("d", $x == 1)) ? $ageToFraMonths += 1 : $ageToFraMonths;
 	
 	foreach ($period as $dt) {
 		//$dateAdd = date_add($date, date_interval_create_from_date_string('1 month'));
@@ -59,14 +65,95 @@ function monthlyData($x, $y, $annualInflation, $pia) {
 		$dateFormatYear = $dt->format("Y");
 		$ageCalc = date_diff(date_create($dateIncrement), date_create($x));
 		$ageFormat = $ageCalc->format('%Y-%m');
+		$exAgeFormat = explode('-', $ageFormat);
+		$ageMonths = $exAgeFormat[0] * 12 + $exAgeFormat[1];
+		$ageToFraMonths -= 1;
+		$piaAdjustment = piaAdjustment($ageToFraMonths, $ageMonths, $x);
 
 		(date("m", strtotime($dateIncrement)) == 1) ? $z = 1 : $z = 0;
 		$growth = ($z == 0) ? 0 : $annualInflation*$z*$thisPia;
 		$thisPia += $growth;
-		$total += $thisPia;
-		array_push($array, array($dateFormat, $ageFormat, $thisPia, $total, $dateFormatYear));
+		$adjustedPia = ($piaAdjustment == 0) ? 0 : $thisPia + ($thisPia * ($piaAdjustment/100));
+		array_push($array, array($dateFormat, $ageFormat, $thisPia, $adjustedPia, $dateFormatYear, $ageToFraMonths, $piaAdjustment));
 	};
 	return $array;
+};
+
+function piaAdjustment($monthsToFra, $ageMonths, $x) {
+	$year = date("Y", strtotime($x));
+	if($monthsToFra > 0) {
+		if($monthsToFra <= 36 && $monthsToFra > 0) {
+			$reduction = $monthsToFra * (5/9);
+		} elseif($monthsToFra > 36 && $ageMonths > 744) {
+			$reduction = ($monthsToFra - 36) * (5/12) + 20.0;
+		} else {
+			$reduction = 0;
+		}
+		$adjustment = -$reduction;
+	
+	} elseif ($monthsToFra < 0) {
+		if($year >= 1943) {
+			$credit = $monthsToFra * (2/3);
+			if($year >= 1943 && $year <= 1954 && $credit <= -32){
+				$credit = -32;
+			} elseif($year == 1955 & $credit <= (-30*(2/3))){
+				$credit = (-30*(2/3));
+			} elseif($year == 1956 & $credit <= (-29*(1/3))){
+				$credit = (-29*(1/3));
+			} elseif($year == 1957 & $credit <= -28){
+				$credit = -28;
+			} elseif($year == 1958 & $credit <= (-26*(2/3))){
+				$credit = (-26*(2/3));
+			} elseif($year == 1959 & $credit <= (-25*(1/3))){
+				$credit = (-25*(1/3));
+			} elseif($year >= 1960 && $credit <= -24) {
+				$credit = -24;
+			}
+		} elseif($year == 1933 || $year == 1934) {
+			$credit = $monthsToFra * (11/24);
+			($credit <= -27.5) ? $credit = -27.5 : $credit;
+		} elseif($year == 1935 || $year == 1936) {
+			$credit = $monthsToFra * (1/2);
+			($credit <= -30) ? $credit = -30 : $credit;
+		} elseif($year == 1937 || $year == 1938) {
+			$credit = $monthsToFra * (13/24);
+			if($year == 1937 && $credit <= -32.5){
+				$credit = -32.5;
+			} elseif ($year == 1938 && $credit <= (-31*(5/12))) {
+				$credit = (-31*(5/12));
+			}
+		} elseif($year == 1939 || $year == 1940) {
+			$credit = $monthsToFra * (7/12);
+			if($year == 1939 && $credit <= (-32*(2/3))){
+				$credit = (-32*(2/3));
+			} elseif ($year == 1940 && $credit <= -31.5) {
+				$credit = -31.5;
+			}
+		} elseif($year == 1941 || $year == 1942) {
+			$credit = $monthsToFra * (5/8);
+			if($year == 1941 && $credit <= -32.5){
+				$credit = -32.5;
+			} elseif ($year == 1942 && $credit <= -31.25) {
+				$credit = -31.25;
+			}
+		} else {
+			$credit = 0;
+		}
+		$adjustment = -$credit;
+	} else {
+		$credit = 0;
+		$adjustment = -$credit;
+	}
+	return $adjustment;
+};
+
+function ageGreaterSixtyTwo ($ageCurrentMonths) {
+	if($ageCurrentMonths > 744) {
+		$ageSixtyTwoBool = TRUE;
+	} else {
+		$ageSixtyTwoBool = FALSE;
+	}
+	return $ageSixtyTwoBool;
 };
 
 function lifeExpectancy($gender, $a) {

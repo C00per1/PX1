@@ -10,13 +10,31 @@
 	$lifeRemainingM = round($exLifeRemaining[1]*12/100);
 	$ageDeath = $lifeRemaining + $a;
 	$leMonths = $lifeRemainingY*12 + $lifeRemainingM;
-
+	
 	$x = date("Y-m-d", strtotime($opened['dob']));
+	$exdob = explode('-', $x);
+	
+	$today = date("Y-m-d");
+	$start = (new DateTime($today))->modify('first day of this month');
+
+	$ageCurrent = date_diff($start, date_create($x));
+	$ageCurrentFormat = $ageCurrent->format('%y-%m');
+	$exCurrentAge = explode('-', $ageCurrentFormat);
+	$ageCurrentMonths = $exCurrentAge[0] * 12 + $exCurrentAge[1];
+	$fraMonths = $opened[fullRetirementAgeMonths];
+	$ageToFraMonths = $fraMonths - $ageCurrentMonths;
+	$ageSixtyTwoBoolean = ageGreaterSixtyTwo($ageCurrentMonths);
+	
 	$annualInflation = $opened['cola']/100;
 	$pia = $opened['pia'];
-	$result = monthlyData($x, $lifeRemaining, $annualInflation, $pia);
+	$result = monthlyData($x, $lifeRemaining, $annualInflation, $pia, $ageToFraMonths, $ageSixtyTwoBoolean, $exdob[0], $exdob[1], $exdob[2]);
 	$lastItem = count($result) - 1;
+	
+
 	//echo '<pre>';
+	//print_r($ageSixtyTwoBoolean);
+	//echo strtotime($opened['dob']);
+	//print_r($a);
 	//print_r($result);
 	//echo '</pre>';
 	?>
@@ -51,7 +69,7 @@
 						<p><strong>Current Age:</strong></p>
 					</td>
 					<td>
-						<p><?php echo $opened['age']; ?></p>
+						<p><?php echo $result[0][1]; ?></p>
 					</td>
 				</tr>
 				
@@ -78,7 +96,7 @@
 						<p><strong>Life Expectancy:</strong></p>
 					</td>
 					<td>
-						<p><?php echo $lifeRemainingY.'-'.$lifeRemainingM; ?></p>
+						<p><?php echo $result[$lastItem][1]; ?></p>
 					</td>
 				</tr>
 
@@ -111,7 +129,62 @@
 	
 	</div><!-- END col-md column -->
 	<div class="col-md-4 col-md-offset-1">
-		<h3>Lifetime Total: &nbsp;<strong>$ <?php echo number_format(floor($result[$lastItem][3])) ; ?></strong></h3>
+		<h3>Monthly View:</h3>
+		<?php // content="text/plain; charset=utf-8"
+			require_once ('config/jqgraph/src/jpgraph-3.5.0b1/jpgraph.php');
+			require_once ('config/jqgraph/src/jpgraph-3.5.0b1/jpgraph_line.php');
+			
+			$datay1 = array(20,15,23,15);
+			$datay2 = array(12,9,42,8);
+			$datay3 = array(5,17,32,24);
+			
+			// Setup the graph
+			$graph = new Graph(300,250);
+			$graph->SetScale("textlin");
+			
+			$theme_class=new UniversalTheme;
+			
+			$graph->SetTheme($theme_class);
+			$graph->img->SetAntiAliasing(false);
+			$graph->title->Set('Filled Y-grid');
+			$graph->SetBox(false);
+			
+			$graph->img->SetAntiAliasing();
+			
+			$graph->yaxis->HideZeroLabel();
+			$graph->yaxis->HideLine(false);
+			$graph->yaxis->HideTicks(false,false);
+			
+			$graph->xgrid->Show();
+			$graph->xgrid->SetLineStyle("solid");
+			$graph->xaxis->SetTickLabels(array('A','B','C','D'));
+			$graph->xgrid->SetColor('#E3E3E3');
+			
+			// Create the first line
+			$p1 = new LinePlot($datay1);
+			$graph->Add($p1);
+			$p1->SetColor("#6495ED");
+			$p1->SetLegend('Line 1');
+			
+			// Create the second line
+			$p2 = new LinePlot($datay2);
+			$graph->Add($p2);
+			$p2->SetColor("#B22222");
+			$p2->SetLegend('Line 2');
+			
+			// Create the third line
+			$p3 = new LinePlot($datay3);
+			$graph->Add($p3);
+			$p3->SetColor("#FF1493");
+			$p3->SetLegend('Line 3');
+			
+			$graph->legend->SetFrameWeight(1);
+			
+			// Output line
+			
+			
+		?>
+		<div><?php $graph->Stroke() ; ?></div>
 	</div>
 </div>
 
@@ -121,7 +194,7 @@
 			<thead>
 				<th>Year</th>
 				<th>Age</th>
-				<th>Income</th>
+				<th>PIA</th>
 			</thead>
 			<tbody>
 				<?php  
@@ -129,14 +202,12 @@
 					$resultYearEx = explode('-', $result[$i][0]);
 					$resultAgeEx = explode('-', $result[$i][1]);
 					$end = date("Y", $result[$lastItem][0]);
-					$sum = 12000;
 					?>
 					
 				<tr>
 					<td><?php echo $resultYearEx[0] ; ?></td>
 					<td><?php echo $resultAgeEx[0] ; ?></td>
-
-					<td><?php echo '$'.number_format(round($sum)) ; ?></td>
+					<td><?php echo '$'.number_format(round($result[$i][2])) ; ?></td>
 				</tr>
 				<?php } ; ?>
 
@@ -144,23 +215,25 @@
 		</table>
 	</div><!-- END col-md column -->
 	
-		<div class="col-md-4 col-md-offset-1">
+	<div class="col-md-5 col-md-offset-1">
 		<table class="table table-hover color-hover">
 			<thead>
 				<th>Date</th>
 				<th>Age</th>
+				<!--<th>Months<br>to FRA</th>-->
 				<th>PIA</th>
-				<th>Total</th>
+				<th>PIA<br>Adjustment</th>
+				<th>Monthly<br>Benefit</th>
 			</thead>
 			<tbody>
 
-				<?php
-
-				for($i = 0; $i < count($result); $i++) { ?>
+				<?php for($i = 0; $i < count($result); $i++) { ?>
 				<tr>
 				    <td><?php echo $result[$i][0] ; ?></td>
 				    <td><?php echo $result[$i][1] ; ?></td>
+				    <!--<td><?php// echo $result[$i][5] ; ?></td>-->
 				    <td>$<?php echo number_format(floor($result[$i][2])) ; ?></td>
+				    <td><?php echo round($result[$i][6],1).'%' ; ?></td>
 				    <td>$<?php echo number_format(floor($result[$i][3])) ; ?></td>
 				</tr>
 				<?php } ?>
