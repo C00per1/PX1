@@ -156,20 +156,26 @@
 		case 'clients':
 			
 			if(isset($_POST['submitted']) == 1) {
-	
 				$first = mysqli_real_escape_string($dbc, $_POST['first']);
 				$last = mysqli_real_escape_string($dbc, $_POST['last']);
 				$dob = mysqli_real_escape_string($dbc, $_POST['dob']);
+				$p1 = new person;
+				$p1->dob = $dob;
+				$age = $p1->age();
+				$ageMonths = $age[1];
+				$ageYearsFormatted = floor($ageMonths/12);
+				$ageYMonthsFormatted = round($ageMonths%12);
+				$ageFormatted = $ageYearsFormatted.'-'.$ageYMonthsFormatted;
 				$year = date('Y', strtotime($dob));
-				$fra = findFullRetirementAgeMonths($year);
+				$fra = $p1->findFullRetirementAgeMonths($year);
 				
 				if(isset($_POST['id']) != '') {
 					$action = 'updated';
-					$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob', fullRetirementAgeMonths = $fra, age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)), gender = $_POST[gender] WHERE id = $_GET[id]";
+					$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob', fullRetirementAgeMonths = $fra, ageMonths = $ageMonths, age = '$ageFormatted', gender = $_POST[gender] WHERE id = $_GET[id]";
 						
 				} else {
 					$action = 'added';
-					$q = "INSERT INTO clients (first, last, status, dob, fullRetirementAgeMonths, age, gender) VALUES ('$first', '$last', '$_POST[status]', '$dob', $fra, YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)), $_POST[gender])";
+					$q = "INSERT INTO clients (first, last, status, dob, fullRetirementAgeMonths, ageMonths, age, gender) VALUES ('$first', '$last', '$_POST[status]', '$dob', $fra, $ageMonths, $ageFormatted, $_POST[gender])";
 					
 				}
 
@@ -214,10 +220,17 @@
 				$pia = mysqli_real_escape_string($dbc, $_POST['pia']);
 				$cola = mysqli_real_escape_string($dbc, $_POST['cola']);
 				$dob = mysqli_real_escape_string($dbc, $_POST['dob']);
+				$p1 = new person;
+				$p1->dob = $dob;
+				$age = $p1->age();
+				$ageMonths = $age[1];
+				$ageYearsFormatted = $ageMonths/12;
+				$ageYMonthsFormatted = round($ageMonths%12);
+				$ageFormatted = $ageYearsFormatted.'-'.$ageYMonthsFormatted;
 				
 				if(isset($_POST['id']) != '') {
 					$action = 'updated';
-					$q = "UPDATE clients SET age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)), pia = '$pia', cola = '$cola' WHERE id = $_POST[id]";
+					$q = "UPDATE clients SET age = $ageFormatted, ageMonths = $ageMonths, pia = '$pia', cola = '$cola' WHERE id = $_POST[id]";
 					$r = mysqli_query($dbc, $q);
 					
 				}

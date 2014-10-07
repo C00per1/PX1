@@ -1,44 +1,16 @@
 <div class="container">
-	
-	<h3>Client Overview</h3>
-
 	<?php
-	$z = $opened['gender'];
-	$a = $opened['age'];
-	$lifeRemaining = lifeExpectancy($z, $a);
-	$exLifeRemaining = explode('.', $lifeRemaining);
-	$lifeRemainingY = $exLifeRemaining[0];
-	$lifeRemainingM = round($exLifeRemaining[1]*12/100);
-	$ageDeath = $lifeRemaining + $a;
-	$leMonths = $lifeRemainingY*12 + $lifeRemainingM;
-	
-	$x = date("Y-m-d", strtotime($opened['dob']));
-	$exdob = explode('-', $x);
-	
-	$today = date("Y-m-d");
-	$start = (new DateTime($today))->modify('first day of this month');
-
-	$ageCurrent = date_diff($start, date_create($x));
-	$ageCurrentFormat = $ageCurrent->format('%y-%m');
-	$exCurrentAge = explode('-', $ageCurrentFormat);
-	$ageCurrentMonths = $exCurrentAge[0] * 12 + $exCurrentAge[1];
-	$fraMonths = $opened[fullRetirementAgeMonths];
-	$ageToFraMonths = $fraMonths - $ageCurrentMonths;
-	$ageSixtyTwoBoolean = ageGreaterSixtyTwo($ageCurrentMonths);
-	
-	$annualInflation = $opened['cola']/100;
-	$pia = $opened['pia'];
-	$result = monthlyData($x, $lifeRemaining, $annualInflation, $pia, $ageToFraMonths, $ageSixtyTwoBoolean, $exdob[0], $exdob[1], $exdob[2]);
-	$lastItem = count($result) - 1;
-	
+	include_once('functions/clientData.php');
 
 	//echo '<pre>';
 	//print_r($ageSixtyTwoBoolean);
 	//echo strtotime($opened['dob']);
-	//print_r($a);
 	//print_r($result);
+	//print_r($age);
 	//echo '</pre>';
 	?>
+
+	<h3>Client Overview</h3>
 
 	<?php if(isset($message)) { echo $message; } ?>
 	
@@ -128,11 +100,89 @@
 				</div>
 			</form>
 		</div>
-	
+		
+		<div class="row" style="margin: 20px 0">
+			<div>
+				<button class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#calcPia">Calculate PIA</button>
+			</div>
+		</div>
+		<div class="modal fade" id="calcPia" tabindex="-1" role="dialog" aria-labelledby="calcPiaLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content" style="background-color: #fbfbfb">
+					
+		    		<div class="modal-header" style="background-color: #e1e1e1">
+		    			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		    			<h4 class="modal-title" id="calcPiaLabel">Yearly Earnings</h4>
+		    		</div><!-- END modal-header -->
+		    		
+		    		<div class="modal-body">
+		    			<div class="row" style="padding: 10px">
+		    				<div class="alert alert-warning alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;&nbsp;Enter the amount of Social Security earnings for each year you had earnings subject to Social Security taxes.
+							</div>
+
+							<?php for($i = $dobYear + 21; $i <= $dobYear + 68; $i+=1) { ?>
+							<div class="col-md-3" style="padding: 5px">
+								<div class="input-group">
+									<span class="input-group-addon"><?php echo $i; ?></span>
+									<input type="text" class="form-control" id="<?php echo $i; ?>" placeholder="0" style="text-align: center" autocomplete="off" />
+								</div><!-- END input -->
+					      	</div><!-- END col-md-4 -->
+					      	<?php } ?>
+				      	</div>
+				    </div><!-- END modal-body -->
+				    
+				    <div class="modal-footer" style="background-color: #e1e1e1">
+				    	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				    	<button type="button" class="btn btn-primary">Save changes</button>
+					</div><!-- END modal-footer -->
+					
+				</div><!-- END modal-content -->
+			</div><!-- END modal-dialog -->
+		</div><!-- END modal -->
+		
 	</div><!-- END col-md column -->
 	<div class="col-md-4 col-md-offset-1">
 		<h3>Monthly View:</h3>
+		<div id="chart_div" style="width:450; height:300"></div>
+		<script>
+			// Load the Visualization API and the piechart package.
+			google.load('visualization', '1.0', {'packages':['corechart']});
+  
+			// Set a callback to run when the Google Visualization API is loaded.
+			google.setOnLoadCallback(drawChart);
 
+
+			// Callback that creates and populates a data table, 
+			// instantiates the pie chart, passes in the data and
+			// draws it.
+			function drawChart() {
+				
+				var jsonData = $.ajax({
+					url: "functions/clientData.php",
+					dataType:"json",
+					async: false
+				}).responseText;
+				
+				// Create the data table.
+				var data = new google.visualization.DataTable(jsonData);
+	
+				// Set chart options
+				var options = {
+					title:'Lifetime Social Security Benefits by Starting Age',
+					hAxis: {title: 'Age'},
+					backgroundColor: '#efefef',
+					//legend.position:'none',
+					width:500,
+					height:350
+				};
+	
+				// Instantiate and draw our chart, passing in some options.
+				var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+				chart.draw(data);
+			}
+		</script>
 		
 	</div>
 </div>
@@ -144,6 +194,7 @@
 				<th>Year</th>
 				<th>Age</th>
 				<th>PIA</th>
+				<th>Benefit</th>
 			</thead>
 			<tbody>
 				<?php  
@@ -151,14 +202,16 @@
 					$resultYearEx = explode('-', $result[$i][0]);
 					$resultAgeEx = explode('-', $result[$i][1]);
 					$end = date("Y", $result[$lastItem][0]);
+					if($result[$i][5] > 0) {
 					?>
 					
 				<tr>
 					<td><?php echo $resultYearEx[0] ; ?></td>
 					<td><?php echo $resultAgeEx[0] ; ?></td>
-					<td><?php echo '$'.number_format(round($result[$i][2])) ; ?></td>
+					<td><?php echo '$'.number_format(round($result[$i][4])) ; ?></td>
+					<td><?php echo '$'.number_format(round($result[$i][5])) ; ?></td>
 				</tr>
-				<?php } ; ?>
+				<?php } } ; ?>
 
 			</tbody>
 		</table>
@@ -169,23 +222,25 @@
 			<thead>
 				<th>Date</th>
 				<th>Age</th>
-				<!--<th>Months<br>to FRA</th>-->
 				<th>PIA</th>
 				<th>PIA<br>Adjustment</th>
 				<th>Monthly<br>Benefit</th>
+				<th>Total</th>
 			</thead>
 			<tbody>
 
-				<?php for($i = 0; $i < count($result); $i++) { ?>
+				<?php for($i = 0; $i < count($result); $i++) { 
+					if($result[$i][5] > 0 && $result[$i][2] <= 840) {?>
 				<tr>
 				    <td><?php echo $result[$i][0] ; ?></td>
 				    <td><?php echo $result[$i][1] ; ?></td>
 				    <!--<td><?php// echo $result[$i][5] ; ?></td>-->
-				    <td>$<?php echo number_format(floor($result[$i][2])) ; ?></td>
-				    <td><?php echo round($result[$i][6],1).'%' ; ?></td>
-				    <td>$<?php echo number_format(floor($result[$i][3])) ; ?></td>
+				    <td>$<?php echo number_format(floor($result[$i][4])) ; ?></td>
+				    <td><?php echo $result[$i][3].'%' ; ?></td>
+				    <td>$<?php echo number_format(floor($result[$i][5])) ; ?></td>
+				    <td>$<?php echo number_format(floor($result[$i][6])) ; ?></td>
 				</tr>
-				<?php } ?>
+				<?php } } ?>
 			</tbody>
 		</table>
 	</div><!-- END col-md column -->
