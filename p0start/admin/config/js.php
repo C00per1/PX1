@@ -36,18 +36,9 @@
 
 <!-- Screen Leap -->
 <!--<script type="text/javascript" src="http://api.screenleap.com/js/screenleap.js"></script>-->
-<!--
-<script src="http://code.highcharts.com/maps/highmaps.js"></script>
-<script src="http://code.highcharts.com/maps/modules/data.js"></script>
-<script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
-<script src="http://code.highcharts.com/mapdata/custom/world.js"></script>
-<script src="js/sandsignika.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
--->
 
-<!-- Google Charts -->
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/fusioncharts/fusioncharts.js"></script>
+<script type="text/javascript" src="js/fusioncharts/themes/fusioncharts.theme.zune.js"></script>
 
 <script>
 	
@@ -81,7 +72,7 @@
 
 			/* Test */
 			/*alert(selected);*/
-		})
+		});
 		
 		$("#sort-nav").sortable({
 			cursor: "move",
@@ -158,10 +149,10 @@
 		$('.progress .progress-bar').progressbar();
 		
 		//Scrolling back to top button
-		if ( ($(window).height() + 750) < $(document).height() ) {
+		if ( ($(window).height() + 200) < $(document).height() ) {
 		    $('#top-link-block').removeClass('hidden').affix({
 		        // how far to scroll down before link "slides" into view
-		        offset: {top:100}
+		        offset: {top:200}
 		    });
 		};
 	
@@ -201,9 +192,6 @@
 	        {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
 	    ]
 	 });
-	 
-
-
 	
 </script>
 

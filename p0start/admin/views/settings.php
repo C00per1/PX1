@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container-fluid">
 	<h1>Settings</h1>
 </div>
 
 <div class="row">
 	
-	<div class="container">
+	<div class="container" style="margin-top: 2%">
 	
 		<div class="col-md-8 col-md-offset-2">
 			

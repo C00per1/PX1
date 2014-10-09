@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container-fluid">
 	<h1>Navigation</h1>
 </div>
 	
-<div class="container">
+<div class="container" style="margin-top: 2%">
 	
 	<div class="col-md-5">
 		

@@ -563,7 +563,7 @@
 	}
 	#top-link-block.affix-top {
 	    position: absolute; /* allows it to "slide" up into view */
-	    bottom: -82px; /* negative of the offset - height of link element */
+	    bottom: -180px; /* negative of the offset - height of link element */
 	    right: 10px; /* padding from the left side of the window */
 	}
 	#top-link-block.affix {
@@ -576,6 +576,46 @@
 	    position: fixed;
 	    bottom: 55px;
 	    right: 10px;
+	}
+	.fusionCharts {
+	  *,
+	  *:before,
+	  *:after {
+	  -webkit-box-sizing: content-box;
+	     -moz-box-sizing: content-box;
+	          box-sizing: content-box;
+	  }
+	}
+	.nav-tabs {
+		border-bottom: none;
+	}
+	/* tab color */
+	.nav-tabs>li>a {
+	  background-color: #333333; 
+	  border-color: #777777;
+	  color:#fff;
+	}
+	
+	/* active tab color */
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+	  color: #fff;
+	  background-color: #666;
+	  border: 1px solid #888888;
+	}
+	
+	/* hover tab color */
+	.nav-tabs>li>a:hover {
+	  border-color: #000000;
+	  background-color: #111111;
+	}
+	table.table-hover.color-hover {
+		border-color: #000000;
+		background-color: #D2DCDE;
+	}
+	thead th {
+		height: 40px;
+		font-size: 16px;
+		vertical-align: middle;
 	}
 	
 /*==================================================

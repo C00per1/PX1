@@ -19,13 +19,13 @@
 	
 <?php } ?>
 
-<div class="container">
+<div class="container-fluid">
 	<h1>User Manager</h1>
 </div>
 
 <div class="row">
 	
-	<div class="container">
+	<div class="container" style="margin-top: 2%">
 	
 		<div class="col-md-4">
 				

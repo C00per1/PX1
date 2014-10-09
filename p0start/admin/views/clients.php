@@ -1,10 +1,10 @@
-<div class="container" style="margin-bottom: 10px">
+<div class="container-fluid">
 	<h1>Client Manager</h1>
 </div>
 
 <div class="row">
 	
-	<div class="container">
+	<div class="container" style="margin-top: 2%">
 	
 		<div class="col-md-4">
 				
