@@ -73,56 +73,75 @@ if(isset($message)) { echo $message; };
 						</td>
 					</tr>
 					
-					<tr>
-						<td>
-							<p><strong>Test</strong></p>
-						</td>
-						<?php
-						//echo '<pre>';
-						//print_r($indexedEarningsArray);
-						//echo '</pre>';
-						?>
-						<td>
-							<p></p>
-						</td>
-					</tr>
-	
 				</tbody>
 				
 			</table><!-- END table -->
 		</div>
-		<div class="col-md-4 col-md-offset-1">
-			
-			<div class="row" style="margin-top: 10%">
-				<form class="form-inline" style="margin-left: 10px" action="?page=clientoverview&id=<?php echo $opened['id']; ?>" method="post" role="form">
-					<div class="form-group col-md-4">
-						<label for="pia">PIA:</label>
-						<div class="input-group">
-							<input class="form-control blur-save" data-id="<?php echo $opened['id'] ; ?>" data-label="Client PIA" data-db="clients-pia" type="number" name="pia" id="pia" value="<?php echo $opened['pia']; ?>" placeholder="PIA" autocomplete="off" />
-						</div>
-					</div>
-		
-					<div class="form-group col-md-4">
-						<label for="cola">COLA:</label>
-						<div class="input-group">
-							<input class="form-control blur-save" data-id="<?php echo $opened['id'] ; ?>" data-label="Client COLA" data-db="clients-cola" type="number" name="cola" id="cola" value="<?php echo $opened['cola']; ?>" placeholder="COLA" autocomplete="off" />
-						</div>
-					</div>
+		<div class="col-md-6">
+			<div class="panel-group piacalc" id="accordion" style="margin-bottom: 10px">
+				<div class="panel panel-default">
+			    	<div class="panel-heading piacalc">
+			      		<h4 class="panel-title">
+			      			<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+        						Quick Calculation
+        					</a>
+        				</h4>
+        			</div><!-- END panel-heading -->
+        			<div id="collapseOne" class="panel-collapse collapse in">
+        				<div class="panel-body piacalc">
+							<form class="form-inline" style="margin-left: 10px" action="?page=clientoverview&id=<?php echo $opened['id']; ?>" method="post" role="form">
+								<div class="form-group col-md-4">
+									<label for="pia">PIA:</label>
+									<div class="input-group">
+										<input class="form-control blur-save" data-id="<?php echo $opened['id'] ; ?>" data-label="Client PIA" data-db="clients-pia" type="number" name="pia" id="pia" value="<?php echo $opened['pia']; ?>" placeholder="PIA" autocomplete="off" />
+									</div>
+								</div>
 					
-					<div class="form-group col-md-4" style="margin-top: 35px">
-					    <a href="?page=clientoverview&id=<?php echo $opened['id']; ?>" class="well well-sm">
-					        <i class="glyphicon glyphicon-chevron-right"></i> Go
-					    </a>
-					</div>
-				</form>
-			</div>
-			
-			<div class="row" style="margin-top: 3%; padding-left: 10px">
-				<div class="col-md-4">
-					<a href="?page=annualEarnings&id=<?php echo $opened['id']; ?>" class="btn btn-primary btn-md" data-target="#calcPia" style="text-align: center">Calculate PIA</a>
-				</div>
-			</div>
-			
+								<div class="form-group col-md-4">
+									<label for="cola">COLA:</label>
+									<div class="input-group">
+										<input class="form-control blur-save" data-id="<?php echo $opened['id'] ; ?>" data-label="Client COLA" data-db="clients-cola" type="number" name="cola" id="cola" value="<?php echo $opened['cola']; ?>" placeholder="COLA" autocomplete="off" />
+									</div>
+								</div>
+								
+								<div class="form-group col-md-4" style="margin-top: 35px">
+								    <a href="?page=clientoverview&id=<?php echo $opened['id']; ?>" class="well well-sm">
+								        <i class="glyphicon glyphicon-chevron-right"></i> Go
+								    </a>
+								</div>
+							</form>
+						</div><!-- END panel-body -->
+					</div><!-- END panel-collapse -->
+				</div><!-- END panel-default -->
+				
+				<div class="panel panel-default piacalc">
+			    	<div class="panel-heading piacalc">
+			      		<h4 class="panel-title piacalc">
+			      			<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Advanced Calculation</a>
+        				</h4>
+        			</div><!-- END panel-heading -->
+        			<div id="collapseTwo" class="panel-collapse collapse">
+        				<div class="panel-body piacalc">
+							<div class="col-md-12">
+								<p class="help-block">Example block-level help text here.</p>
+								<a href="?page=annualEarnings&id=<?php echo $opened['id']; ?>" class="btn btn-primary btn-block btn-md" data-target="#calcPia" style="text-align: center">Edit Earnings</a>
+							</div>
+
+							<div class="col-md-7 col-md-offset-1">
+								<h3 style="font-variant: small-caps">Results</h3>
+								<ul>
+									<li>
+										<h4><strong>Primary Insurance Amount (PIA): </strong>$<?php echo $calculatedPia[0]; ?></h4>
+									</li>
+									<li>
+										<h4><strong>Years of Substantial Earnings: </strong><?php echo $calculatedPia[1]; ?></h4>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div><!-- END panel-body -->
+				</div><!-- END panel-collapse -->
+			</div><!-- END panel-default -->	
 		</div><!-- END col-md column -->
 
 	</div>

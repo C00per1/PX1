@@ -12,9 +12,10 @@ $lastItem = count($result) - 1;
 $age = $p1->age();
 $dob = $p1->dobParts();
 $dobYear = $dob[0];
-$indexedEarningsArray = $p1->piaCalculation($dobYear, unserialize($opened['annualEarnings']), unserialize($opened['annualEarningsYear']));
-//$test = $p1->piaCalculation($dobYear);
-//$indexedEarningsArray = unserialize($opened['annualEarnings']);
+
+$calculatedPia = $p1->piaCalculation($dobYear, unserialize($opened['annualEarnings']), unserialize($opened['annualEarningsYear']));
+$maxLifetimeBenefits = array_max_recursive($result);
+$ageMaxLifetimeBenefits = array_multi_search($result, $maxLifetimeBenefits);
 
 $myArray1 = array();
 $myArray2 = array();
@@ -66,8 +67,6 @@ function array_max_recursive(array $array) {
     return $max;
 }
 
-$maxLifetimeBenefits = array_max_recursive($result);
-
 function array_multi_search($array, $input){
 	
     $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($array));  
@@ -82,8 +81,6 @@ function array_multi_search($array, $input){
  
     return $outputArray;
 }
-
-$ageMaxLifetimeBenefits = array_multi_search($result, $maxLifetimeBenefits);
 
 ?>
 

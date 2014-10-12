@@ -481,14 +481,26 @@
 	.panel-default {
 		border: none
 	}
-	.panel-default>.panel-heading {
+	.panel-default>.panel-heading.weather {
     	background-color: #808080!important;
     	background-image: none;
     	color: #ECF0F1 !important;
     	border: none
 	}
-	.panel-collapse>.panel-body {
+	.panel-collapse>.panel-body.weather {
     	background-color: #808080!important;
+    	background-image: none;
+    	color: #ECF0F1 !important;
+    	border: none
+	}
+	.panel-default>.panel-heading.piacalc {
+    	background-color: #2F4F4F!important;
+    	background-image: none;
+    	color: #ECF0F1 !important;
+    	border: none
+	}
+	.panel-collapse>.panel-body.piacalc {
+    	background-color: #8EBBBC!important;
     	background-image: none;
     	color: #ECF0F1 !important;
     	border: none

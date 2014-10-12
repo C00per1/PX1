@@ -99,32 +99,99 @@ class person {
 	function piaCalculation($dobYear, $earningsArray, $yearsArray) {
 		
 		$ageSixtyIndexYear = $dobYear + 60;
-		/*$indexedWageBase = $this->averageIndexedEarnings($dobYear);
+		$indexedWageBase = $this->averageIndexedEarnings($ageSixtyIndexYear);
 		$indexedEarningsArray = array();
+		$substantialEarningsArray = array();
 		
 		for($i = 0; $i < count($earningsArray); $i++) {
-			//$natIndexedEarnings = $this->averageIndexedEarnings($yearsArray[$i]);
-			//array_push($indexedEarningsArray, $natIndexedEarnings);
-			$natIndexedEarnings = $indexedWageBase / $this->averageIndexedEarnings($yearsArray[$i]) * $earningsArray[$i];
-			array_push($indexedEarningsArray, array($yearsArray[$i], $natIndexedEarnings));
-			if($earningsArray[$i] > 0) {
-				if($yearsArray[$i] < $ageSixtyIndexYear && $yearsArray[$i] <= 2013) {
-					$indexedEarnings = $indexedWageBase/$natIndexedEarnings*$earningsArray[$i];
-				} elseif($yearsArray[$i] < $ageSixtyIndexYear && $yearsArray[$i] > 2013) {
-					$indexedEarnings = $indexedWageBase/42979.61*$earningsArray[$i];
+			if(preg_match("/^[0-9,]+$/", $earningsArray[$i])) $earnings = str_replace(',', '', $earningsArray[$i]);
+			
+			$natIndexedEarnings = $this->averageIndexedEarnings($yearsArray[$i]);
+			
+			$substantialEarnings = $this->piaSubEarningsConstants($yearsArray[$i], $earnings);
+			array_push($substantialEarningsArray, $substantialEarnings);
+			
+			if($earnings > 0) {
+				if($yearsArray[$i] < $ageSixtyIndexYear) {
+					$aIndex = $indexedWageBase / $natIndexedEarnings;
+					$indexedEarnings = $aIndex * $earnings; 
 				} elseif($yearsArray[$i] >= $ageSixtyIndexYear) {
-					$indexedEarnings = $earningsArray[$i];
+					$indexedEarnings = $earnings;
 				}
-			} 
-			array_push($indexedEarningsArray, array($indexedEarnings, $yearsArray[$i]));
-			if($earningsArray[$i]  == 0) {
-				$indexEarnings = 0;
-				array_push($indexedEarningsArray, array($indexedEarnings, $yearsArray[$i]));
+			} elseif($earnings  <= 0) {
+				$indexedEarnings = 0;
 			}
-		}*/
+			array_push($indexedEarningsArray, $indexedEarnings);
+		}
 		
-		return $ageSixtyIndexYear;
+		$sumYearsSubstantialEarnings = array_sum($substantialEarningsArray);
 		
+		$bendPointPercentageFirst = $this->bendPointPercentageFirst($sumYearsSubstantialEarnings);
+		
+		rsort($indexedEarningsArray, SORT_ASC);
+		
+		for($w = 0; $w < 35; $w++){
+			$totalIndexedEarnings += $indexedEarningsArray[$w];
+		}
+		$averageIndexedEarnings = floor($totalIndexedEarnings / 420);
+		
+		$bendPoints = $this->bendPoints($ageSixtyIndexYear + 2);
+		
+		$firstBend = $bendPoints[0];
+		$secondBend = $bendPoints[1] - $bendPoints[0];
+		
+		$piaPartOne = ($averageIndexedEarnings >= $firstBend) ? $firstBend * $bendPointPercentageFirst : $averageIndexedEarnings * $bendPointPercentageFirst;
+		if($averageIndexedEarnings >= $secondBend) {
+			$piaPartTwo = $secondBend * 0.32;
+		} else {
+			$piaPartTwo = ($averageIndexedEarnings - $firstBend) * 0.32;
+		}
+		
+		$pia = $this->round_down($piaPartOne + $piaPartTwo);
+		
+		return array($pia, $sumYearsSubstantialEarnings, $bendPointPercentageFirst, $averageIndexedEarnings);
+		
+	}
+
+	//Find pertage applied to first bend point
+	function bendPointPercentageFirst($subYears) {
+		
+		if($subYears >= 30) {
+			$percent = 0.90;
+		} elseif($subYears == 29) {
+			$percent = 0.85;
+		} elseif($subYears == 28) {
+			$percent = 0.80;
+		} elseif($subYears == 27) {
+			$percent = 0.75;
+		} elseif($subYears == 26) {
+			$percent = 0.70;
+		} elseif($subYears == 25) {
+			$percent = 0.65;
+		} elseif($subYears == 24) {
+			$percent = 0.60;
+		} elseif($subYears == 23) {
+			$percent = 0.55;
+		} elseif($subYears == 22) {
+			$percent = 0.50;
+		} elseif($subYears == 21) {
+			$percent = 0.45;
+		} elseif($subYears <= 20 && $subYears >= 1) {
+			$percent = 0.40;
+		} else {
+			$percent = 0.0;
+		}
+		
+		return $percent;
+		
+	}
+
+	//Round float down to next tenth of a percent
+	function round_down($number, $precision = 2) {
+		
+	    $fig = (int) str_pad('1', $precision, '0');
+		
+	    return (floor($number * $fig) / $fig);
 	}
 	
 	//Calculate PIA adjustment
@@ -246,7 +313,7 @@ class person {
 	}
 	
 	//Substancial Earnings
-	function piaSubEarningsConstants() {
+	function piaSubEarningsConstants($year, $earnings) {
 		
 		$substantialEarningsArray = array(
 			1951 => 900,
@@ -313,6 +380,20 @@ class person {
 			2012 => 20475,
 			2013 => 21075
 		);
+		if($year <= 2013) {
+			if($substantialEarningsArray[$year] <= $earnings) {
+				$subEarnings = 1;
+			} else {
+				$subEarnings = 0;
+			}
+		} elseif ($year > 2013 && $earnings >= 10000) {
+			$subEarnings = 1;
+		} else {
+			$subEarnings = 0;
+		}
+		
+		return $subEarnings;
+		
 	}
 
 	function averageIndexedEarnings($year) {
@@ -387,6 +468,56 @@ class person {
 		} elseif($year > 2013) {
 			return 43000;
 		}
+	}
+
+	function bendPoints($year) {
+		
+		$bendPointsArray = array(
+		
+			1979 => array(198, 1085),
+			1980 => array(194, 1171),
+			1981 => array(211, 1274),
+			1982 => array(230, 1388),
+			1983 => array(254, 1528),
+			1984 => array(267, 1612),
+			1985 => array(280, 1691),
+			1986 => array(297, 1790),
+			1987 => array(310, 1866),
+			1988 => array(319, 1922),
+			1989 => array(339, 2044),
+			1990 => array(356, 2145),
+			1991 => array(370, 2230),
+			1992 => array(387, 2333),
+			1993 => array(401, 2420),
+			1994 => array(422, 2545),
+			1995 => array(426, 2567),
+			1996 => array(437, 2635),
+			1997 => array(455, 2741),
+			1998 => array(477, 2875),
+			1999 => array(505, 3043),
+			2000 => array(531, 3202),
+			2001 => array(561, 3381),
+			2002 => array(592, 3567),
+			2003 => array(606, 3653),
+			2004 => array(612, 3689),
+			2005 => array(627, 3779),
+			2006 => array(656, 3955),
+			2007 => array(680, 4100),
+			2008 => array(711, 4288),
+			2009 => array(744, 4483),
+			2010 => array(761, 4586),
+			2011 => array(749, 4517),
+			2012 => array(767, 4624),
+			2013 => array(791, 4768)
+			
+		);
+			
+		if($year <= 2013){
+			return $bendPointsArray[$year];
+		} elseif($year > 2013) {
+			return array(791, 4768);
+		}
+		
 	}
 		
 	//Client FRA by YOB

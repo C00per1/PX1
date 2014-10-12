@@ -33,7 +33,7 @@ $condition_hourly = $forecast->getForecastToday($latitude, $longitude);
 ?>
 
 <div class="col-md-4 margin-top" style="padding-right: 5px; padding-left: 5px">
-	<div id="dashboard-weather" class="panel panel-group panel-animated bg-grey border-grey animated fadeInUp">
+	<div id="dashboard-weather" class="panel panel-group weather panel-animated bg-grey border-grey animated fadeInUp">
 
 		<div class="row" style="padding-top: 5px; padding-right: 5px">
 			<div class="col-sm-4 col-md-offset-8">
@@ -42,11 +42,11 @@ $condition_hourly = $forecast->getForecastToday($latitude, $longitude);
 			</div>
 		</div>
 		
-	    <div class="panel-heading bg-red no-border">
+	    <div class="panel-heading weather bg-red no-border">
 	        <h3 class="text-center" style="line-height: 0px">Lake Minnetonka (MN)<?php echo $_POST['inputZipCode']; echo "<br><br>"; print_r($_POST['inputZipCode']); ?></h3>
 	    </div><!--/panel-heading-->
 	
-	    <div class="panel-body text-center bordered-bottom border-transparent">
+	    <div class="panel-body weather text-center bordered-bottom border-transparent">
 	    	<p class="text-lg">TODAY</p>
 	        <p class="text-64"><?php echo round($condition->getTemperature()) ; ?>&deg;
 	        	<canvas value="<?php echo $condition->getIcon() ; ?>" id="0" width="80" height="80"></canvas>
