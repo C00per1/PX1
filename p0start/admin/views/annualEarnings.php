@@ -15,23 +15,23 @@
 		
 		<?php if(isset($message)) { echo $message; }; ?>
 		
-		<form action="?page=annualEarnings&id=<?php echo $opened['id']; ?>" method="post" role="form">		
+		<form action="?page=annualEarnings&id=<?php echo $opened['id']; ?>" id="piaCalc" method="post" role="form">		
 			<div class="row">		
 				<div style="margin: 0 20px">
 					<?php
 					$earningsDb = unserialize($opened['annualEarnings']);
-					$yearsArray = array();
 					$z = 0;
-					for($i = $dobYear + 20; $i <= $dobYear + 70; $i+=1) {
-						array_push($yearsArray, $i);
-					?>
-					<div class="form-group col-md-2" style="padding: 5px">
+					$start = $dobYear + 20;
+					$end = $dobYear + 70;
+					for($i = $start; $i <= $end; $i+=1) { ?>
+					<div class="form-group col-md-2" style="padding: 10px">
 						<div class="input-group">
 							<span class="input-group-addon"><?php echo $i; ?></span>
-							<input class="form-control number" type="text" id="<?php echo $i; ?>" name="income[]" value="<?php echo $earningsDb[$z]; ?>" style="text-align: center" autocomplete="off" />
+							<input class="form-control piaCalc" type="text" id="<?php echo $i; ?>" name="income[]" value="<?php echo $earningsDb[$z]; ?>" style="text-align: center" autocomplete="off" />
 						</div><!-- END input -->
 			      	</div><!-- END col-md-4 -->
 			      	<?php $z++; } ?>
+			      	<div id"messages" class="hide"></div>
 		      	</div>
 		     </div>
 		     
@@ -43,7 +43,7 @@
 			
 	    	</div>
 	    	
-    		<input type="hidden" name="year" value="<?php print_r($yearsArray); ?>" />
+    		<input type="hidden" name="year" value="<?php echo $start; ?>" />
 			
 			<input type="hidden" name="openedid" value="<?php echo $opened['id']; ?>" />
 	    	

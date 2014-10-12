@@ -280,23 +280,14 @@
 				//$earnigns = $_POST['year'];
 				$id = $_POST[openedid];
 				$incomeArray = $_POST['income'];
-				$annualArray = $_POST['year'];
-				$values = array("Array","(",")");
-				$yearArray = str_replace($values, '', $annualArray);
-				$trimmedYear = explode("\n", (ltrim($yearArray)));
-				
+				$startYear = $_POST[year];
 				$finalYearArray = array();
-				
-				for($i = 0; $i < count($incomeArray); $i++) {
-					$newTrimmedYear = explode("> ", $trimmedYear[$i]);
-					array_push($finalYearArray, (int) rtrim($newTrimmedYear[1]));
-				}
-				
 				$finalIncomeArray = array();
 				
 				for($w = 0; $w < count($incomeArray); $w++) {
-					$finalIncomeValue = (int) $incomeArray[$w];
+					$finalIncomeValue = /*(int)*/ $incomeArray[$w];
 					array_push($finalIncomeArray, $finalIncomeValue);
+					array_push($finalYearArray, $startYear + $w);
 				}
 				$finalIncomeArraySerialized = serialize($finalIncomeArray);
 				$finalYearArraySerialized = serialize($finalYearArray);
@@ -315,7 +306,7 @@
 							<button type="button" class="close" data-dismiss="alert">
 								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 							</button>
-							<strong>Success!</strong> Client earnings were '.$action.'! '.$finalIncomeArray.'
+							<strong>Success!</strong> Client earnings were '.$action.'!
 						</div>';
 					
 				} else {

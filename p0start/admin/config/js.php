@@ -37,6 +37,10 @@
 <!-- Screen Leap -->
 <!--<script type="text/javascript" src="http://api.screenleap.com/js/screenleap.js"></script>-->
 
+<!-- Bootstrap Validator -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+
+<!-- Fusion Charts -->
 <script type="text/javascript" src="js/fusioncharts/fusioncharts.js"></script>
 <script type="text/javascript" src="js/fusioncharts/themes/fusioncharts.theme.zune.js"></script>
 
@@ -101,7 +105,7 @@
 			event.preventDefault();
 		});
 		
-		$('input.number').keyup(function(event){
+		$('input.piaCalc').keyup(function(event){
 			// skip for arrow keys
 			if(event.which >= 37 && event.which <= 40){
 				event.preventDefault();
@@ -111,12 +115,32 @@
 		      
 		    var num2 = RemoveRougeChar(num.replace(/(.{3})/g,"$1,").split("").reverse().join(""));
 		      
-		    console.log(num2);
+		    //console.log(num2);
 		      
 		      
 		    // the following line has been simplified. Revision history contains original.
 		    $this.val(num2);
 		});
+		
+		$('#piaCalc').bootstrapValidator({
+			
+	        feedbackIcons: {
+	            valid: 'fa fa-check',
+    			invalid: 'fa fa-times',
+    			validating: 'fa fa-refresh'
+            },
+            
+	        fields: {
+            	'income[]': {
+                	validators: {
+                    	regexp: {
+                    		regexp: '^[0-9\,]+$',
+                        	message: 'The earnings input is invalid '
+                    	}
+                	}
+            	}
+        	}
+	    });
 		
     	$("canvas").each(function(){
     		var a = new Skycons({color: "#ecf0f1"});

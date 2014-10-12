@@ -23,6 +23,9 @@
 <!-- X-editable CSS -->
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
+<!-- Bootstrap Validator CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+
 
 <style>
 
@@ -616,6 +619,12 @@
 		height: 40px;
 		font-size: 16px;
 		vertical-align: middle;
+	}
+	.bv-form .bv-icon-input-group {
+		top: 20px;
+	}
+	.form-control-feedback {
+	    right: 10px;
 	}
 	
 /*==================================================
