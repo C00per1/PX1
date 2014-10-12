@@ -12,6 +12,9 @@ $lastItem = count($result) - 1;
 $age = $p1->age();
 $dob = $p1->dobParts();
 $dobYear = $dob[0];
+$indexedEarningsArray = $p1->piaCalculation($dobYear, unserialize($opened['annualEarnings']), unserialize($opened['annualEarningsYear']));
+//$test = $p1->piaCalculation($dobYear);
+//$indexedEarningsArray = unserialize($opened['annualEarnings']);
 
 $myArray1 = array();
 $myArray2 = array();
@@ -84,101 +87,4 @@ $ageMaxLifetimeBenefits = array_multi_search($result, $maxLifetimeBenefits);
 
 ?>
 
-<script>
-	 FusionCharts.ready(function(){
-	    var monthlyChart = new FusionCharts({
-	      type: "column2d",
-	      renderAt: "chartContainer",
-	      width: "100%",
-	      height: "600",
-	      dataFormat: "json",
-	      dataSource: {
-	       "chart": {
-	          "caption": "Getting the Most Out of Social Security",
-	          "subCaption": "Lifetime Benefits by Election Age",
-	          "xAxisName": "Starting Age (Year-Month)",
-	          "yAxisName": "Lifetime Benefits ($)",
-	          "xAxisNamePadding": "15",
-	          "yAxisNamePadding": "15",
-	          "canvasPadding": "10",
-	          "captionPadding": "30",
-	          "alignCaptionWithCanvas": "0",
-	          "captionFontSize": "20",
-	          "subcaptionFontSize": "16",
-	          "xAxisNameFontSize": "16",
-	          "yAxisNameFontSize": "16",
-	          "baseFontSize": "16",
-	          "numberPrefix": "$",
-	          "bgColor": "#B5C5C9",
-	          "canvasBgAlpha": "0",
-	          "setAdaptiveYMin": "1",
-	          "theme": "zune",
-	          "labelDisplay": "rotate",
-	          "slantLabels": "1",
-	          "labelStep": "4",
-	          "showValues": "0"
-	       },
-	       "data": [<?php for($i = 0; $i < count($myArray1); $i++) { echo $myArray1[$i]; } ?>]
-	 	}
-	  });
-	  
-	  var secsChart = new FusionCharts({
-	      type: "bar2d",
-	      renderAt: "chartContainer2",
-	      width: "100%",
-	      height: "375",
-	      dataFormat: "json",
-	      dataSource: {
-	       "chart": {
-	          "caption": "SNAPSHOT",
-	          //"subCaption": "Lifetime Benefits at Key Ages",
-	          //"xAxisName": "Starting Age",
-	          //"yAxisName": "Lifetime Benefits ($)",
-	          "xAxisNamePadding": "15",
-	          "yAxisNamePadding": "15",
-	          "canvasPadding": "10",
-	          "captionPadding": "5",
-	          "alignCaptionWithCanvas": "0",
-	          "captionFontSize": "20",
-	          "subcaptionFontSize": "16",
-	          "xAxisNameFontSize": "16",
-	          "yAxisNameFontSize": "18",
-	          "baseFontSize": "16",
-	          "valueFontSize": "16",
-	          "numberPrefix": "$",
-	          "bgColor": "#B5C5C9",
-	          "canvasBgAlpha": "0",
-	          "setAdaptiveYMin": "1",
-	          "theme": "zune",
-	          "labelDisplay": "rotate",
-	          "slantLabels": "0",
-	          "labelStep": "1",
-	          "showValues": "1"
-	       },
-	       "data": [
-	       		{
-	       			'label': 'Earliest:',
-	       			'value': <?php echo json_encode($myArray2[0][6]); ?>
-	       		},
-	       		{
-	       			'label': 'FRA:',
-	       			'value': <?php echo json_encode($myArray4[0][6]); ?>
-	       		},
-	       		{
-	       			'label': 'Latest:',
-	       			'value': <?php echo json_encode($myArray3[0][6]); ?>
-	       		},
-	       		{
-	       			'label': 'Maximum:',
-	       			'value': <?php echo json_encode($ageMaxLifetimeBenefits[0][6]); ?>,
-	       			'color': '#00ff00'
-	       		}
-	       ]
-	 	}
-	  });
-	  monthlyChart.render("chartContainer");
-	  
-	  secsChart.render("chartContainer2");
-	});
- 
-</script>
+

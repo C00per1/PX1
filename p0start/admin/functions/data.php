@@ -45,22 +45,6 @@ function data_client($dbc, $id) {
 	
 }
 
-
-function client_age($dbc, $id) {
-	
-	$q = "UPDATE clients SET age = YEAR(CURDATE())-YEAR(dob) - (RIGHT(CURDATE(),5) < RIGHT(dob,5)) WHERE id = $_GET[id]";
-	$r = mysqli_query($dbc, $q);
-	
-	//$q = "UPDATE clients SET age = TIMESTAMPDIFF(YEAR,dob,CURDATE()) WHERE id = $_GET[id]";
-	//$r = mysqli_query($dbc, $q);
-					
-	$data = mysqli_fetch_assoc($r);
-	
-	return $data;
-	
-}
-
-
 function data_post($dbc, $id) {
 	
 	$q = "SELECT * FROM posts WHERE id = $id";

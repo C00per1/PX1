@@ -227,10 +227,16 @@
 				$ageYearsFormatted = $ageMonths/12;
 				$ageYMonthsFormatted = round($ageMonths%12);
 				$ageFormatted = $ageYearsFormatted.'-'.$ageYMonthsFormatted;
+				$incomeArrayQ = array();
+				for($i = $dobYear + 20; $i <= $dobYear + 70; $i+=1) {
+					$yearly = mysqli_real_escape_string($dbc, $_POST[$i]);
+					array_push($incomeArrayQ, $yearly);
+				}
+				$final = serialize($incomeArrayQ);
 				
 				if(isset($_POST['id']) != '') {
 					$action = 'updated';
-					$q = "UPDATE clients SET age = $ageFormatted, ageMonths = $ageMonths, pia = '$pia', cola = '$cola' WHERE id = $_POST[id]";
+					$q = "UPDATE clients SET age = $ageFormatted, ageMonths = $ageMonths, pia = '$pia', cola = '$cola', annualEarnings = $final WHERE id = $_POST[id]";
 					$r = mysqli_query($dbc, $q);
 					
 				}
@@ -242,7 +248,7 @@
 							<button type="button" class="close" data-dismiss="alert">
 								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 							</button>
-							<strong>Success!</strong> Setting was '.$action.'!
+							<strong>Success!</strong> Client data was '.$action.'!
 						</div>';
 					
 				} else {
@@ -255,7 +261,72 @@
   								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
   							</button>
   							<strong>Warning!</strong> 
-  							<p>Setting could not be '.$action.' because: '.mysqli_error($dbc).'</p>
+  							<p>Client data could not be '.$action.' because: '.mysqli_error($dbc).'</p>
+  							<p>Query: '.$q.'</p>
+						</div>
+					';
+					
+				}
+			}
+
+			if(isset($_GET['id'])) { $opened = data_client($dbc, $_GET['id']); }
+			
+		break;
+		
+		case 'annualEarnings':
+		
+			if(isset($_POST['submitted']) == 1) {
+				
+				//$earnigns = $_POST['year'];
+				$id = $_POST[openedid];
+				$incomeArray = $_POST['income'];
+				$annualArray = $_POST['year'];
+				$values = array("Array","(",")");
+				$yearArray = str_replace($values, '', $annualArray);
+				$trimmedYear = explode("\n", (ltrim($yearArray)));
+				
+				$finalYearArray = array();
+				
+				for($i = 0; $i < count($incomeArray); $i++) {
+					$newTrimmedYear = explode("> ", $trimmedYear[$i]);
+					array_push($finalYearArray, (int) rtrim($newTrimmedYear[1]));
+				}
+				
+				$finalIncomeArray = array();
+				
+				for($w = 0; $w < count($incomeArray); $w++) {
+					$finalIncomeValue = (int) $incomeArray[$w];
+					array_push($finalIncomeArray, $finalIncomeValue);
+				}
+				$finalIncomeArraySerialized = serialize($finalIncomeArray);
+				$finalYearArraySerialized = serialize($finalYearArray);
+				
+				if(isset($_POST['openedid']) != '') {
+					$action = 'updated';
+					$q = "UPDATE clients SET annualEarnings = '$finalIncomeArraySerialized', annualEarningsYear = '$finalYearArraySerialized' WHERE id = $id";
+					$r = mysqli_query($dbc, $q);
+					
+				}
+				
+				if($r) {
+					
+					$message = '
+						<div class="alert alert-success alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert">
+								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+							</button>
+							<strong>Success!</strong> Client earnings were '.$action.'! '.$finalIncomeArray.'
+						</div>';
+					
+				} else {
+					
+					$message = '
+						<div class="alert alert-warning alert-dismissible" role="alert">
+  							<button type="button" class="close" data-dismiss="alert">
+  								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+  							</button>
+  							<strong>Warning!</strong> 
+  							<p>Client earnings could not be '.$action.' at queries.php annualEarnings because: '.mysqli_error($dbc).'</p>
   							<p>Query: '.$q.'</p>
 						</div>
 					';

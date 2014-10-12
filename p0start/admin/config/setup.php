@@ -2,7 +2,7 @@
 // Setup Files:
 
 #Error Reporting
-error_reporting(2);
+error_reporting(E_ALL & ~E_NOTICE);
 
 #Database Connection
 include('../config/connection.php');
@@ -19,7 +19,7 @@ include('functions/calculate.php');
 
 # Site Settings
 $debug = data_setting_value($dbc, 'debug-status');
-$screenLeap = data_setting_value($dbc, 'screenLeap-Status');
+//$screenLeap = data_setting_value($dbc, 'screenLeap-Status');
 $site_title = data_setting_value($dbc, "site-title");
 
 # Load page content via URL query

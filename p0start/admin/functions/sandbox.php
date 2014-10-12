@@ -119,8 +119,7 @@ function ageAddMonth() {
 
 function incrementAge($ageInput) {
 	$ageEx = explode('-', $ageInput);
-	//$ageY = $ageEx[1];
-	//$ageM = $ageEx[1];
+
 	if($ageEx[1] == 11) {
 		$ageEx[0] += 1;
 		$ageEx[1] = 0;
@@ -128,8 +127,6 @@ function incrementAge($ageInput) {
 		$ageEx[1] += 1;
 	};
 
-	//$newAge = impolode('-', array($ageEx[0],$ageEx[1]));
-	//return $newAge;
 	return implode('-', array($ageEx[0], $ageEx[1]));
 };
 
@@ -151,15 +148,4 @@ class DateTimeEnhanced extends DateTime {
 
 }
 
-//$interval = DateInterval::createfromdatestring('+1 day');
-
-//$dt = new DateTimeEnhanced; # initialize new object
-//echo $dt->format(DateTime::W3C) . "\n"; # 2013-09-12T15:01:44+02:00
-
-//$dt->add($interval); # this modifies the object values
-//echo $dt->format(DateTime::W3C) . "\n"; # 2013-09-13T15:01:44+02:00
-
-//$dtNew = $dt->returnAdd($interval); # this returns the new modified object and doesn't change original object
-//echo $dt->format(DateTime::W3C) . "\n"; # 2013-09-13T15:01:44+02:00
-//echo $dtNew->format(DateTime::W3C) . "\n"; # 2013-09-14T15:01:44+02:00
 ?>

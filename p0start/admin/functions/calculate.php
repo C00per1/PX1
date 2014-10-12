@@ -2,6 +2,7 @@
 <?php
 
 date_default_timezone_set('America/Chicago');
+
 class person {
 	
 	public $first;
@@ -19,7 +20,6 @@ class person {
 		$ageDeath = $monthsToDeath + $age[1];
 		
 		$today = date("Y-m-d");
-		//$start = new DateTime();
 		$ageSixtyTwoOff = $this->monthsToSixtyTwo();
 		$start = (new DateTime($today))->modify('first day of next month');
 		/*if($ageSixtyTwoOff > 0) {
@@ -92,6 +92,38 @@ class person {
 			$total += $iBenefit;
 		}
 		return $total;
+		
+	}
+	
+	//Calculate PIA
+	function piaCalculation($dobYear, $earningsArray, $yearsArray) {
+		
+		$ageSixtyIndexYear = $dobYear + 60;
+		/*$indexedWageBase = $this->averageIndexedEarnings($dobYear);
+		$indexedEarningsArray = array();
+		
+		for($i = 0; $i < count($earningsArray); $i++) {
+			//$natIndexedEarnings = $this->averageIndexedEarnings($yearsArray[$i]);
+			//array_push($indexedEarningsArray, $natIndexedEarnings);
+			$natIndexedEarnings = $indexedWageBase / $this->averageIndexedEarnings($yearsArray[$i]) * $earningsArray[$i];
+			array_push($indexedEarningsArray, array($yearsArray[$i], $natIndexedEarnings));
+			if($earningsArray[$i] > 0) {
+				if($yearsArray[$i] < $ageSixtyIndexYear && $yearsArray[$i] <= 2013) {
+					$indexedEarnings = $indexedWageBase/$natIndexedEarnings*$earningsArray[$i];
+				} elseif($yearsArray[$i] < $ageSixtyIndexYear && $yearsArray[$i] > 2013) {
+					$indexedEarnings = $indexedWageBase/42979.61*$earningsArray[$i];
+				} elseif($yearsArray[$i] >= $ageSixtyIndexYear) {
+					$indexedEarnings = $earningsArray[$i];
+				}
+			} 
+			array_push($indexedEarningsArray, array($indexedEarnings, $yearsArray[$i]));
+			if($earningsArray[$i]  == 0) {
+				$indexEarnings = 0;
+				array_push($indexedEarningsArray, array($indexedEarnings, $yearsArray[$i]));
+			}
+		}*/
+		
+		return $ageSixtyIndexYear;
 		
 	}
 	
@@ -211,6 +243,150 @@ class person {
 		$ageSixtyTwo = 744 - $ageMonths[1];
 		
 		return $ageSixtyTwo;
+	}
+	
+	//Substancial Earnings
+	function piaSubEarningsConstants() {
+		
+		$substantialEarningsArray = array(
+			1951 => 900,
+			1952 => 900,
+			1953 => 900,
+			1954 => 900,
+			1955 => 1050,
+			1956 => 1050,
+			1957 => 1050,
+			1958 => 1050,
+			1959 => 1200,
+			1960 => 1200,
+			1961 => 1200,
+			1962 => 1200,
+			1963 => 1200,
+			1964 => 1200,
+			1965 => 1200,
+			1966 => 1650,
+			1967 => 1650,
+			1968 => 1950,
+			1969 => 1950,
+			1970 => 1950,
+			1971 => 1950,
+			1972 => 2250,
+			1973 => 2700,
+			1974 => 3300,
+			1975 => 3525,
+			1976 => 3825,
+			1977 => 4125,
+			1978 => 4425,
+			1979 => 4725,
+			1980 => 5100,
+			1981 => 5550,
+			1982 => 6075,
+			1983 => 6675,
+			1984 => 7050,
+			1985 => 7425,
+			1986 => 7875,
+			1987 => 8175,
+			1988 => 8400,
+			1989 => 8925,
+			1990 => 9525,
+			1991 => 9900,
+			1992 => 10350,
+			1993 => 10725,
+			1994 => 11250,
+			1995 => 11325,
+			1996 => 11625,
+			1997 => 12150,
+			1998 => 12675,
+			1999 => 13425,
+			2000 => 14175,
+			2001 => 14925,
+			2002 => 15750,
+			2003 => 16125,
+			2004 => 16275,
+			2005 => 16725,
+			2006 => 17475,
+			2007 => 18150,
+			2008 => 18975,
+			2009 => 19800,
+			2010 => 19800,
+			2011 => 19800,
+			2012 => 20475,
+			2013 => 21075
+		);
+	}
+
+	function averageIndexedEarnings($year) {
+		
+		$nationalAverageIndexedEarningsArray = array(
+			1951 => 2799.16,
+			1952 => 2973.32,
+			1953 => 3139.44,
+			1954 => 3155.64,
+			1955 => 3301.44,
+			1956 => 3532.36,
+			1957 => 3641.72,
+			1958 => 3673.80,
+			1959 => 3855.80,
+			1960 => 4007.12,
+			1961 => 4086.76,
+			1962 => 4291.40,
+			1963 => 4396.64,
+			1964 => 4576.32,
+			1965 => 4658.72,
+			1966 => 4938.36,
+			1967 => 5213.44,
+			1968 => 5571.76,
+			1969 => 5893.76,
+			1970 => 6186.24,
+			1971 => 6497.08,
+			1972 => 7133.80,
+			1973 => 7580.16,
+			1974 => 8030.76,
+			1975 => 8630.92,
+			1976 => 9226.48,
+			1977 => 9779.44,
+			1978 => 10556.03,
+			1979 => 11479.46,
+			1980 => 12513.46,
+			1981 => 13773.10,
+			1982 => 14531.34,
+			1983 => 15239.24,
+			1984 => 16135.07,
+			1985 => 16822.51,
+			1986 => 17321.82,
+			1987 => 18426.51,
+			1988 => 19334.04,
+			1989 => 20099.55,
+			1990 => 21027.98,
+			1991 => 21811.60,
+			1992 => 22935.42,
+			1993 => 23132.67,
+			1994 => 23753.53,
+			1995 => 24705.66,
+			1996 => 25913.90,
+			1997 => 27426.00,
+			1998 => 28861.44,
+			1999 => 30469.84,
+			2000 => 32154.82,
+			2001 => 32921.92,
+			2002 => 33252.09,
+			2003 => 34064.95,
+			2004 => 35648.55,
+			2005 => 36952.94,
+			2006 => 38651.41,
+			2007 => 40405.48,
+			2008 => 41334.97,
+			2009 => 40711.61,
+			2010 => 41673.83,
+			2011 => 42979.61,
+			2012 => 42979.61,
+			2013 => 42979.61
+		);
+		if($year <= 2013){
+			return $nationalAverageIndexedEarningsArray[$year];
+		} elseif($year > 2013) {
+			return 43000;
+		}
 	}
 		
 	//Client FRA by YOB

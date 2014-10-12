@@ -91,9 +91,9 @@
 				<div class="pull-right">
 					<?php
 					if($opened['id'] != '') {
-						$redirect = clientoverview;
+						$redirect = 'clientoverview';
 					} else {
-						$redirect = clients;
+						$redirect = 'clients';
 					}
 					?>
 					<a href="?page=<?php echo $redirect ?>&id=<?php echo $opened['id']; ?>" class="btn btn-default">View</a>				

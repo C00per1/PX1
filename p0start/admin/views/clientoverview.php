@@ -57,10 +57,33 @@ if(isset($message)) { echo $message; };
 					
 					<tr>
 						<td>
+							<p><strong>Life Remaining:</strong></p>
+						</td>
+						<td>
+							<p><?php echo $monthsUntilDeath; ?></p>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
 							<p><strong>Life Expectancy:</strong></p>
 						</td>
 						<td>
 							<p><?php echo $result[$lastItem][1]; ?></p>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<p><strong>Test</strong></p>
+						</td>
+						<?php
+						//echo '<pre>';
+						//print_r($indexedEarningsArray);
+						//echo '</pre>';
+						?>
+						<td>
+							<p></p>
 						</td>
 					</tr>
 	
@@ -96,45 +119,9 @@ if(isset($message)) { echo $message; };
 			
 			<div class="row" style="margin-top: 3%; padding-left: 10px">
 				<div class="col-md-4">
-					<button class="btn btn-primary btn-md" data-toggle="modal" data-target="#calcPia" style="text-align: center">Calculate PIA</button>
+					<a href="?page=annualEarnings&id=<?php echo $opened['id']; ?>" class="btn btn-primary btn-md" data-target="#calcPia" style="text-align: center">Calculate PIA</a>
 				</div>
 			</div>
-			
-			<div class="modal fade" id="calcPia" tabindex="-1" role="dialog" aria-labelledby="calcPiaLabel" aria-hidden="true">
-				<div class="modal-dialog modal-lg">
-					<div class="modal-content" style="background-color: #fbfbfb">
-						
-			    		<div class="modal-header" style="background-color: #e1e1e1">
-			    			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-			    			<h4 class="modal-title" id="calcPiaLabel">Yearly Earnings</h4>
-			    		</div><!-- END modal-header -->
-			    		
-			    		<div class="modal-body">
-			    			<div class="row" style="padding: 10px">
-			    				<div class="alert alert-warning alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-									<i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;&nbsp;Enter the amount of Social Security earnings for each year you had earnings subject to Social Security taxes.
-								</div>
-	
-								<?php for($i = $dobYear + 20; $i <= $dobYear + 70; $i+=1) { ?>
-								<div class="col-md-3" style="padding: 5px">
-									<div class="input-group">
-										<span class="input-group-addon"><?php echo $i; ?></span>
-										<input type="text" class="form-control" id="<?php echo $i; ?>" style="text-align: center" autocomplete="off" />
-									</div><!-- END input -->
-						      	</div><!-- END col-md-4 -->
-						      	<?php } ?>
-					      	</div>
-					    </div><!-- END modal-body -->
-					    
-					    <div class="modal-footer" style="background-color: #e1e1e1">
-					    	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					    	<button type="button" class="btn btn-primary">Save changes</button>
-						</div><!-- END modal-footer -->
-						
-					</div><!-- END modal-content -->
-				</div><!-- END modal-dialog -->
-			</div><!-- END modal -->
 			
 		</div><!-- END col-md column -->
 
@@ -142,7 +129,7 @@ if(isset($message)) { echo $message; };
 </div>
 <div class="container-fluid">
 	<div class="row" style="margin-top: 1%">
-		<div class="col-md-5" style="margin-left: 45px">
+		<div class="col-md-5" style="margin-left: 55px">
 			<?php 
 			
 			//echo '<pre>';
@@ -168,7 +155,7 @@ if(isset($message)) { echo $message; };
 
 		</div>
 		<div class="col-md-6" style="margin-top: 25px">
-			<div id="chartContainer2" class="fushionCharts" style="padding: 0 15px"></div>
+			<div id="chartContainer2" class="fushionCharts" style="padding: 0 10px"></div>
 		</div>
 	</div>
 </div>
@@ -260,6 +247,7 @@ if(isset($message)) { echo $message; };
 		</div>
 	</div>
 </div>
+
 <span class="pull-right stickyButton">
     <a href="?page=clients&id=<?php echo $opened['id']; ?>" class="well well-sm">
         <i class="glyphicon glyphicon-chevron-left"></i> Back
@@ -273,3 +261,102 @@ if(isset($message)) { echo $message; };
 
 <input type="hidden" name="submitted" value="1" />
 <input type="hidden" name="openedid" value="<?php echo $opened['id']; ?>" />
+
+<script>
+	 FusionCharts.ready(function(){
+	    var monthlyChart = new FusionCharts({
+	      type: "column2d",
+	      renderAt: "chartContainer",
+	      width: "100%",
+	      height: "600",
+	      dataFormat: "json",
+	      dataSource: {
+	       "chart": {
+	          "caption": "Getting the Most Out of Social Security",
+	          "subCaption": "Lifetime Benefits by Election Age",
+	          "xAxisName": "Starting Age (Year-Month)",
+	          "yAxisName": "Lifetime Benefits ($)",
+	          "xAxisNamePadding": "15",
+	          "yAxisNamePadding": "15",
+	          "canvasPadding": "10",
+	          "captionPadding": "30",
+	          "alignCaptionWithCanvas": "0",
+	          "captionFontSize": "20",
+	          "subcaptionFontSize": "16",
+	          "xAxisNameFontSize": "16",
+	          "yAxisNameFontSize": "16",
+	          "baseFontSize": "16",
+	          "numberPrefix": "$",
+	          "bgColor": "#B5C5C9",
+	          "canvasBgAlpha": "0",
+	          "setAdaptiveYMin": "1",
+	          "theme": "zune",
+	          "labelDisplay": "rotate",
+	          "slantLabels": "1",
+	          "labelStep": "4",
+	          "showValues": "0"
+	       },
+	       "data": [<?php for($i = 0; $i < count($myArray1); $i++) { echo $myArray1[$i]; } ?>]
+	 	}
+	  });
+	  
+	  var secsChart = new FusionCharts({
+	      type: "bar2d",
+	      renderAt: "chartContainer2",
+	      width: "100%",
+	      height: "375",
+	      dataFormat: "json",
+	      dataSource: {
+	       "chart": {
+	          "caption": "SNAPSHOT",
+	          //"subCaption": "Lifetime Benefits at Key Ages",
+	          //"xAxisName": "Starting Age",
+	          //"yAxisName": "Lifetime Benefits ($)",
+	          "xAxisNamePadding": "15",
+	          "yAxisNamePadding": "15",
+	          "canvasPadding": "10",
+	          "captionPadding": "5",
+	          "alignCaptionWithCanvas": "0",
+	          "captionFontSize": "20",
+	          "subcaptionFontSize": "16",
+	          "xAxisNameFontSize": "16",
+	          "yAxisNameFontSize": "18",
+	          "baseFontSize": "16",
+	          "valueFontSize": "16",
+	          "numberPrefix": "$",
+	          "bgColor": "#B5C5C9",
+	          "canvasBgAlpha": "0",
+	          "setAdaptiveYMin": "1",
+	          "theme": "zune",
+	          "labelDisplay": "rotate",
+	          "slantLabels": "0",
+	          "labelStep": "1",
+	          "showValues": "1"
+	       },
+	       "data": [
+	       		{
+	       			'label': 'Earliest:',
+	       			'value': <?php echo json_encode($myArray2[0][6]); ?>
+	       		},
+	       		{
+	       			'label': 'FRA:',
+	       			'value': <?php echo json_encode($myArray4[0][6]); ?>
+	       		},
+	       		{
+	       			'label': 'Latest:',
+	       			'value': <?php echo json_encode($myArray3[0][6]); ?>
+	       		},
+	       		{
+	       			'label': 'Maximum:',
+	       			'value': <?php echo json_encode($ageMaxLifetimeBenefits[0][6]); ?>,
+	       			'color': '#00ff00'
+	       		}
+	       ]
+	 	}
+	  });
+	  monthlyChart.render("chartContainer");
+	  
+	  secsChart.render("chartContainer2");
+	});
+ 
+</script>
