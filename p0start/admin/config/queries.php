@@ -159,24 +159,43 @@
 				$first = mysqli_real_escape_string($dbc, $_POST['first']);
 				$last = mysqli_real_escape_string($dbc, $_POST['last']);
 				$dob = mysqli_real_escape_string($dbc, $_POST['dob']);
+				$spousefirst = mysqli_real_escape_string($dbc, $_POST['spousefirst']);
+				$spouselast = mysqli_real_escape_string($dbc, $_POST['spouselast']);
+				$spousedob = mysqli_real_escape_string($dbc, $_POST['spousedob']);
 				$p1 = new person;
+				$p2 = new person;
 				$p1->dob = $dob;
+				$p2->dob = $spousedob;
 				$age = $p1->age();
+				$spouseage = $p2->age();
 				$ageMonths = $age[1];
+				$spouseageMonths = $spouseage[1];
 				$ageYearsFormatted = floor($ageMonths/12);
+				$spouseageYearsFormatted = floor($spouseageMonths/12);
 				$ageYMonthsFormatted = round($ageMonths%12);
+				$spouseageYMonthsFormatted = round($spouseageMonths%12);
 				$ageFormatted = $ageYearsFormatted.'-'.$ageYMonthsFormatted;
+				$spouseageFormatted = $spouseageYearsFormatted.'-'.$spouseageYMonthsFormatted;
 				$year = date('Y', strtotime($dob));
+				$spouseyear = date('Y', strtotime($spousedob));
 				$fra = $p1->findFullRetirementAgeMonths($year);
+				$spousefra = $p2->findFullRetirementAgeMonths($spouseyear);
 				
 				if(isset($_POST['id']) != '') {
 					$action = 'updated';
-					$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob', fullRetirementAgeMonths = $fra, ageMonths = $ageMonths, age = '$ageFormatted', gender = $_POST[gender] WHERE id = $_GET[id]";
+					if($_POST[status] == 1) {
+						$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob', fullRetirementAgeMonths = $fra, ageMonths = $ageMonths, age = '$ageFormatted', gender = $_POST[gender], spouse_first = '$spousefirst', spouse_last = '$spouselast', spouse_dob = '$spousedob', spouse_fullRetirementAgeMonths = $spousefra, spouse_age_Months = $spouseageMonths, spouse_age = '$spouseageFormatted', spouse_gender = $_POST[spousegender] WHERE id = $_GET[id]";
+					} else {
+						$q = "UPDATE clients SET first = '$first', last = '$last', status = $_POST[status], dob = '$dob', fullRetirementAgeMonths = $fra, ageMonths = $ageMonths, age = '$ageFormatted', gender = $_POST[gender] WHERE id = $_GET[id]";
+					}
 						
 				} else {
 					$action = 'added';
-					$q = "INSERT INTO clients (first, last, status, dob, fullRetirementAgeMonths, ageMonths, age, gender) VALUES ('$first', '$last', '$_POST[status]', '$dob', $fra, $ageMonths, $ageFormatted, $_POST[gender])";
-					
+					if($_POST[status] == 1) {
+						$q = "INSERT INTO clients (first, last, status, dob, fullRetirementAgeMonths, ageMonths, age, gender, spouse_first, spouse_last, spouse_dob, spouse_fullRetirementAgeMonths, spouse_age_Months, spouse_age, spouse_gender) VALUES ('$first', '$last', '$_POST[status]', '$dob', $fra, $ageMonths, $ageFormatted, $_POST[gender], '$spousefirst', '$spouselast', '$spousedob', $spousefra, $spouseageMonths, $spouseageFormatted, $_POST[spousegender])";
+					} else {	
+						$q = "INSERT INTO clients (first, last, status, dob, fullRetirementAgeMonths, ageMonths, age, gender) VALUES ('$first', '$last', '$_POST[status]', '$dob', $fra, $ageMonths, $ageFormatted, $_POST[gender])";
+					}
 				}
 
 				$r = mysqli_query($dbc, $q);

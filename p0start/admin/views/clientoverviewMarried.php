@@ -20,6 +20,7 @@ if(isset($message)) { echo $message; };
 						<thead>
 							<th></th>
 							<th data-field="id"><?php echo $opened['fullname']; ?></th>
+							<th data-field="id"><?php echo $opened['fullnameSpouse']; ?></th>
 						</thead>
 						
 						<tbody>
@@ -31,6 +32,9 @@ if(isset($message)) { echo $message; };
 								<td>
 									<p><?php echo $opened['dob']; ?></p>
 								</td>
+								<td>
+									<p><?php echo $opened['spouse_dob']; ?></p>
+								</td>
 							</tr>
 							
 							<tr>
@@ -39,6 +43,9 @@ if(isset($message)) { echo $message; };
 								</td>
 								<td>
 									<p><?php echo $result[0][1]; ?></p>
+								</td>
+								<td>
+									<p>58-0</p>
 								</td>
 							</tr>
 							
@@ -58,6 +65,9 @@ if(isset($message)) { echo $message; };
 										?>
 									</p>
 								</td>
+								<td>
+									<p>66</p>
+								</td>
 							</tr>
 							
 							<tr>
@@ -66,6 +76,9 @@ if(isset($message)) { echo $message; };
 								</td>
 								<td>
 									<p><?php echo $result[$lastItem][1]; ?></p>
+								</td>
+								<td>
+									<p>82-4</p>
 								</td>
 							</tr>
 							

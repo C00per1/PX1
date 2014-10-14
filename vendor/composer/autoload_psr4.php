@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Litipk\\BigNumbers\\' => array($vendorDir . '/litipk/php-bignumbers/src'),
 );

@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Litipk\\Exceptions' => array($vendorDir . '/litipk/php-exceptions/src'),
 );

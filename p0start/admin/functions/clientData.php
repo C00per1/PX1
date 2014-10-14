@@ -17,35 +17,84 @@ $calculatedPia = $p1->piaCalculation($dobYear, unserialize($opened['annualEarnin
 $maxLifetimeBenefits = array_max_recursive($result);
 $ageMaxLifetimeBenefits = array_multi_search($result, $maxLifetimeBenefits);
 
-$myArray1 = array();
-$myArray2 = array();
-$myArray3 = array();
-$myArray4 = array();
+$lifetimeBenefitsSixtyTwoSeventy = array();
+$earliestLifetimeBenefitsArray = array();
+$latestLifetimeBenefitsArray = array();
+$fraLifetimeBenefitsArray = array();
+
+/*function variousLifetimeBenefits() {*/
 for($i = 0; $i < count($result); $i++) {
 	if($result[$i][6] > 0 && $result[$i][2] <= 840 ) {
 		if($i == (count($result) - 1)){
-			array_push($myArray1, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode($result[$i][6])."}");
+			array_push($lifetimeBenefitsSixtyTwoSeventy, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode($result[$i][6])."}");
 		} else {
-			array_push($myArray1, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode($result[$i][6])."}, ");
+			array_push($lifetimeBenefitsSixtyTwoSeventy, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode($result[$i][6])."}, ");
 		}
 		if($dob[2] == 1 && $result[$i][2] == 745) {//TO DO
-			array_push($myArray2, $result[$i]);
+			array_push($earliestLifetimeBenefitsArray, $result[$i]);
 			//} elseif ($result[0][2] > 744) {
 			//	array_push($myArray2, $result[0]);//TO DO
 		} elseif ($dob[2] != 1 && $result[$i][2] == 745) {
-			array_push($myArray2, $result[$i]);
+			array_push($earliestLifetimeBenefitsArray, $result[$i]);
 		}
 		if ($result[$i][2] == $opened['fullRetirementAgeMonths']) {
-			array_push($myArray4, $result[$i]);
+			array_push($fraLifetimeBenefitsArray, $result[$i]);
 		}
 		if ($result[$i][2] == 840) {
-			array_push($myArray3, $result[$i]);
+			array_push($latestLifetimeBenefitsArray, $result[$i]);
 		}
 	}
 	if($result[0][6] > 0) {
-		array_push($myArray2, $result[0]);
+		array_push($earliestLifetimeBenefitsArray, $result[0]);
 	}
-}
+};
+/*
+$p1 = new person();
+$p1->first = $opened['first'];
+$p1->dob = $opened['dob'];
+$p1->gender = $opened['gender'];
+$p1->annualInflation = $opened['cola']/100;
+$p1->pia = $opened['pia'];
+$result = $p1->mainData();
+$lastItem = count($result) - 1;
+$age = $p1->age();
+$dob = $p1->dobParts();
+$dobYear = $dob[0];
+
+$calculatedPia = $p1->piaCalculation($dobYear, unserialize($opened['annualEarnings']), unserialize($opened['annualEarningsYear']));
+$maxLifetimeBenefits = array_max_recursive($result);
+$ageMaxLifetimeBenefits = array_multi_search($result, $maxLifetimeBenefits);
+
+$lifetimeBenefitsSixtyTwoSeventy = array();
+$earliestLifetimeBenefitsArray = array();
+$latestLifetimeBenefitsArray = array();
+$fraLifetimeBenefitsArray = array();
+
+for($i = 0; $i < count($result); $i++) {
+	if($result[$i][6] > 0 && $result[$i][2] <= 840 ) {
+		if($i == (count($result) - 1)){
+			array_push($lifetimeBenefitsSixtyTwoSeventy, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode($result[$i][6])."}");
+		} else {
+			array_push($lifetimeBenefitsSixtyTwoSeventy, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode($result[$i][6])."}, ");
+		}
+		if($dob[2] == 1 && $result[$i][2] == 745) {//TO DO
+			array_push($earliestLifetimeBenefitsArray, $result[$i]);
+			//} elseif ($result[0][2] > 744) {
+			//	array_push($myArray2, $result[0]);//TO DO
+		} elseif ($dob[2] != 1 && $result[$i][2] == 745) {
+			array_push($earliestLifetimeBenefitsArray, $result[$i]);
+		}
+		if ($result[$i][2] == $opened['fullRetirementAgeMonths']) {
+			array_push($fraLifetimeBenefitsArray, $result[$i]);
+		}
+		if ($result[$i][2] == 840) {
+			array_push($latestLifetimeBenefitsArray, $result[$i]);
+		}
+	}
+	if($result[0][6] > 0) {
+		array_push($earliestLifetimeBenefitsArray, $result[0]);
+	}
+}*/
 
 function array_max_recursive(array $array) {
     $max = NULL;

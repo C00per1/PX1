@@ -50,10 +50,10 @@ class person {
 
 			$piaAdjustment = $this->piaAdjustment($xAgeMonths);
 			(date("m", strtotime($dateIncrement)) == 1) ? $z = 1 : $z = 0;
-			$growth = ($z == 0) ? 0 : $annualInflation*$z*$pia;
-			$pia += $growth;
-			$preGrowthPia = $pia - $growth;
-			$adjustedPia = ($piaAdjustment == 0) ? 0 : $pia + ($pia * ($piaAdjustment));
+			$growth = ($z == 0) ? 0 : bcmul($annualInflation, bcmul($pia, $z));
+			$pia = bcadd($pia, $growth);
+			$preGrowthPia = bcsub($pia, $growth);
+			$adjustedPia = ($piaAdjustment == 0) ? 0 : bcadd($pia, bcmul($pia, $piaAdjustment));
 			if($xAgeMonths == $this->findFullRetirementAgeMonths()) {
 				$adjustedPia = $pia;
 			}
@@ -64,7 +64,7 @@ class person {
 			}
 			//$i += 1;
 			
-			array_push($myArray, array($dateIncrementFormat, $ageCalcFormat, $xAgeMonths, round($piaAdjustment*100,2), floor($pia), floor($adjustedPia), $totalBenefit));
+			array_push($myArray, array($dateIncrementFormat, $ageCalcFormat, $xAgeMonths, round($piaAdjustment*100,2), $pia, $adjustedPia, $totalBenefit));
 		}
 		
 		return $myArray;
@@ -86,10 +86,10 @@ class person {
 		foreach($iPeriod as $idt) {
 			$iDateIncrement = $idt->format("Y-m");
 			(date("m", strtotime($iDateIncrement)) == 1) ? $z = 1 : $z = 0;
-			$iGrowth = ($z == 0) ? 0 : floor($inflation*$z*$iPia);
-			$iPia += $iGrowth;
-			$iBenefit = floor($iPia + ($iPia * ($iPiaAdjustment)));
-			$total += $iBenefit;
+			$iGrowth = ($z == 0) ? 0 : $this->round_down(bcmul($annualInflation, bcmul($iPia, $z)),1);
+			$iPia = bcadd($iPia, $iGrowth);
+			$iBenefit = bcadd($iPia, bcmul($iPia, $iPiaAdjustment));
+			$total = bcadd($total, $iBenefit);
 		}
 		return $total;
 		

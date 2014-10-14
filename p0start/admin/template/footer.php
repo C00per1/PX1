@@ -11,6 +11,6 @@
 			</div>
 		</div>
 
-<?php if($debug == 1) { include('widgets/debug.php'); } //Debug Widget ?>
+	<?php if($debug == 1) { include('widgets/debug.php'); } //Debug Widget ?>
 	</body>
 </html>

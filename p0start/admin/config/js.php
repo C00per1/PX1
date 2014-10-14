@@ -207,6 +207,25 @@
 	  		});
 	  	};
 		
+		//Piacalc Accordion active
+		$('.panel-collapse').on('show.bs.collapse',function(){
+		    $(this).prev('.panel-heading').addClass("active-panel");
+		});
+		
+		$('.panel-collapse').on('hide.bs.collapse',function(){
+		    $(this).prev('.panel-heading').removeClass("active-panel");
+		});
+		
+		$("#spouse").css("display","none");
+		
+		toggleFields();
+		
+		$("#status").change(function() {
+			toggleFields();
+		});
+            
+	    
+
 	}); // END document.ready();
 	
 	jQuery(document).ready(function() {
@@ -236,16 +255,18 @@
 	 
 	 
 	function RemoveRougeChar(convertString){
-	    
-	    
 	    if(convertString.substring(0,1) == ","){
-	        
-	        return convertString.substring(1, convertString.length)            
-	        
+	        return convertString.substring(1, convertString.length)   
 	    }
 	    return convertString;
-	    
-	}
+	};
+	
+	function toggleFields() {
+		if($("#status").val() == "1")
+			$("#spouse").show();
+		else
+			$("#spouse").hide();
+	};
 	
 </script>
 

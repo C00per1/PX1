@@ -40,6 +40,8 @@ function data_client($dbc, $id) {
 	
 	$data['fullname'] = $data['first'].' '.$data['last'];
 	$data['fullname_reverse'] = $data['last'].', '.$data['first'];
+	$data['fullnameSpouse'] = $data['spouse_first'].' '.$data['spouse_last'];
+	$data['fullname_reverseSpouse'] = $data['spouse_last'].', '.$data['spouse_first'];
 		
 	return $data;
 	

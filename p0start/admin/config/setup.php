@@ -2,7 +2,7 @@
 // Setup Files:
 
 #Error Reporting
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(0);
 
 #Database Connection
 include('../config/connection.php');

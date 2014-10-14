@@ -1,0 +1,108 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "8a1ae596c0b04b1ade1ad9a407480619",
+    "packages": [
+        {
+            "name": "litipk/php-bignumbers",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Litipk/php-bignumbers.git",
+                "reference": "42c8de822d1cbb55f9309928d93e221e47dab988"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Litipk/php-bignumbers/zipball/42c8de822d1cbb55f9309928d93e221e47dab988",
+                "reference": "42c8de822d1cbb55f9309928d93e221e47dab988",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "litipk/php-exceptions": ">=0.1.2",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "satooshi/php-coveralls": "dev-master",
+                "squizlabs/php_codesniffer": "1.5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Litipk\\BigNumbers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrés Correa Casablanca",
+                    "email": "castarco@litipk.com"
+                }
+            ],
+            "description": "An opensource library to handle immutable big numbers inside PHP applications",
+            "keywords": [
+                "bcmath",
+                "bignum",
+                "decimal",
+                "gmp",
+                "number"
+            ],
+            "time": "2014-01-20 00:03:21"
+        },
+        {
+            "name": "litipk/php-exceptions",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Litipk/php-exceptions.git",
+                "reference": "c34c1bd75274b8da81cf521b8843482d2b9cb2a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Litipk/php-exceptions/zipball/c34c1bd75274b8da81cf521b8843482d2b9cb2a2",
+                "reference": "c34c1bd75274b8da81cf521b8843482d2b9cb2a2",
+                "shasum": ""
+            },
+            "require-dev": {
+                "ext-xdebug": "*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Litipk\\Exceptions": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrés Correa Casablanca",
+                    "email": "castarco@litipk.com"
+                }
+            ],
+            "description": "An extended set of basic exceptions definitions.",
+            "keywords": [
+                "exception",
+                "exceptions"
+            ],
+            "time": "2013-12-21 00:18:01"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
+}

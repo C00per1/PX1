@@ -1,10 +1,14 @@
-<body class="animated fadeIn">
-	<section class="section">
-		<div class="content">
+
+<section class="section">
+	<div class="row" style="margin-top: 50px">
+	
+		<?php include('template/sidebar.php'); ?>
+		
+		<div id="fixedContent" class="margin-top col-xs-10 col-sm-10">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12 content-header">
-							<h1 class="content-title">Welcome to the Dashboard</h1>
+						<h1 class="content-title">Welcome to the Dashboard</h1>
 					</div><!-- END content-header -->
 				</div>
 			</div>
@@ -18,7 +22,7 @@
 								
 									<?php include('widgets/weather.php') ; ?>
 									
-									<?php// include('widgets/screenleap.php') ; ?>
+									<?php include('widgets/screenleap.php') ; ?>
 									
 							</div><!--/#system-stats-->
 						</div><!-- END row -->
@@ -26,5 +30,6 @@
 				</div>
 			</div>
 		</div><!-- END content -->
-	</section><!-- END section -->
-</body><!-- END body -->
+	</div>
+</section><!-- END section -->
+
