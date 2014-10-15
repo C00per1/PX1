@@ -232,7 +232,7 @@
 
 			break;
 	
-		case 'clientoverview':
+		case 'client':
 		
 			if(isset($_POST['submitted']) == 1) {
 	

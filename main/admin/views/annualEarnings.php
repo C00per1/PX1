@@ -10,7 +10,7 @@
 				</div><!-- END modal-header -->
 				<div class="col-md-2 pull-right" style="padding-top: 40px">
 					<div class="btn-group">
-						<a type="button" href="?page=clientoverview&id=<?php echo $opened['id']; ?>" class="btn btn-default">Close</a>	
+						<a type="button" href="?page=client&id=<?php echo $opened['id']; ?>" class="btn btn-default">Close</a>	
 						<button type="submit" class="btn btn-primary">Save</button>
 					</div>
 				</div>

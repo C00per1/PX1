@@ -603,18 +603,20 @@
 	#top-link-block.affix-top {
 	    position: absolute; /* allows it to "slide" up into view */
 	    bottom: -180px; /* negative of the offset - height of link element */
-	    right: 10px; /* padding from the left side of the window */
+	    left: 25px; /* padding from the left side of the window */
 	}
 	#top-link-block.affix {
 	    position: fixed; /* keeps it on the bottom once in view */
 	    bottom: 10px; /* height of link element */
-	    right: 10px; /* padding from the left side of the window */
+	    left: 20px; /* padding from the left side of the window */
 	    padding-bottom: 10px;
+	    z-index: 1000;
 	}
 	.stickyButton {
 	    position: fixed;
 	    bottom: 55px;
-	    right: 10px;
+	    left: 20px;
+	    z-index: 1000;
 	}
 	.fusionCharts {
 	  *,

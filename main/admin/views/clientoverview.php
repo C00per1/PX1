@@ -8,7 +8,7 @@ if(isset($message)) { echo $message; };
 	
 	<div id="fixedContent" class="margin-top col-xs-10 col-sm-10">
 		<div class="container-fluid">
-			<h1>Client Overview</h1>
+			<h1>Client Overview Single</h1>
 		</div><!-- END container -->
 		
 		<div class="container-fluid" style=margin: 10px; padding: 10px">
@@ -16,15 +16,11 @@ if(isset($message)) { echo $message; };
 				<div class="col-md-5" style="margin-left: 30px; margin-right: 0px; margin-top: 10px; margin-bottom: 10px">
 					
 					<table class="table table-hover">
-						
 						<thead>
 							<th></th>
 							<th data-field="id"><?php echo $opened['fullname']; ?></th>
-							<th data-field="id"><?php echo $opened['fullnameSpouse']; ?></th>
 						</thead>
-						
 						<tbody>
-							
 							<tr>
 								<td>
 									<p><strong>Date of Birth:</strong></p>
@@ -32,11 +28,7 @@ if(isset($message)) { echo $message; };
 								<td>
 									<p><?php echo $opened['dob']; ?></p>
 								</td>
-								<td>
-									<p><?php echo $opened['spouse_dob']; ?></p>
-								</td>
 							</tr>
-							
 							<tr>
 								<td>
 									<p><strong>Current Age:</strong></p>
@@ -44,11 +36,7 @@ if(isset($message)) { echo $message; };
 								<td>
 									<p><?php echo $result[0][1]; ?></p>
 								</td>
-								<td>
-									<p>58-0</p>
-								</td>
 							</tr>
-							
 							<tr>
 								<td>
 									<p><strong>Full Retirement Age:</strong></p>
@@ -65,11 +53,7 @@ if(isset($message)) { echo $message; };
 										?>
 									</p>
 								</td>
-								<td>
-									<p>66</p>
-								</td>
 							</tr>
-							
 							<tr>
 								<td>
 									<p><strong>Life Expectancy:</strong></p>
@@ -77,48 +61,39 @@ if(isset($message)) { echo $message; };
 								<td>
 									<p><?php echo $result[$lastItem][1]; ?></p>
 								</td>
-								<td>
-									<p>82-4</p>
-								</td>
 							</tr>
-							
-						</tbody>
-						
+						</tbody><!-- END tbody -->
 					</table><!-- END table -->
-				</div>
+				</div><!-- END col-md-5 -->
 				<div class="col-md-6 pull-right" style="margin: 10px;">
 					<div class="panel-group piacalc" id="accordion" style="margin-bottom: 10px">
 						<div class="panel panel-default">
 					    	<div class="panel-heading piacalc active-panel">
 					      		<h4 class="panel-title">
-					      			<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-		        						Quick Calculation
-		        					</a>
-		        				</h4>
+					      			<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Quick Calculation</a>
+		        				</h4><!-- END panel-title -->
 		        			</div><!-- END panel-heading -->
 		        			<div id="collapseOne" class="panel-collapse collapse in">
 		        				<div class="panel-body piacalc">
-									<form class="form-inline" style="margin-left: 10px" action="?page=clientoverview&id=<?php echo $opened['id']; ?>" method="post" role="form">
+									<form class="form-inline" style="margin-left: 10px" action="?page=client&id=<?php echo $opened['id']; ?>" method="post" role="form">
 										<div class="form-group col-md-4">
 											<label for="pia">PIA:</label>
 											<div class="input-group">
 												<input class="form-control blur-save" data-id="<?php echo $opened['id'] ; ?>" data-label="Client PIA" data-db="clients-pia" type="number" name="pia" id="pia" value="<?php echo $opened['pia']; ?>" placeholder="PIA" autocomplete="off" />
-											</div>
-										</div>
-							
+											</div><!-- END input-group -->
+										</div><!-- END form-group -->
 										<div class="form-group col-md-4">
 											<label for="cola">COLA:</label>
 											<div class="input-group">
 												<input class="form-control blur-save" data-id="<?php echo $opened['id'] ; ?>" data-label="Client COLA" data-db="clients-cola" type="number" name="cola" id="cola" value="<?php echo $opened['cola']; ?>" placeholder="COLA" autocomplete="off" />
-											</div>
-										</div>
-										
+											</div><!-- END input-group -->
+										</div><!-- END form-group -->
 										<div class="form-group col-md-4" style="margin-top: 35px">
-										    <a href="?page=clientoverview&id=<?php echo $opened['id']; ?>" class="well well-sm">
+										    <a href="?page=client&id=<?php echo $opened['id']; ?>" class="well well-sm">
 										        <i class="glyphicon glyphicon-chevron-right"></i> Go
 										    </a>
-										</div>
-									</form>
+										</div><!-- END form-group -->
+									</form><!-- END form -->
 								</div><!-- END panel-body -->
 							</div><!-- END panel-collapse -->
 						</div><!-- END panel-default -->
@@ -152,33 +127,25 @@ if(isset($message)) { echo $message; };
 					</div><!-- END panel-default -->	
 				</div><!-- END col-md column -->
 		
-			</div>
-		</div>
+			</div><!-- END row -->
+		</div><!-- END container -->
 		<div class="container-fluid" style="margin: 10px; padding: 10px">
 			<div class="row">
 				<div class="col-md-5" style="margin-left: 55px">
-					<?php 
-					
-					//echo '<pre>';
-					//print_r($ageMaxLifetimeBenefits);
-					//var_dump($ageMaxLifetimeBenefits);
-					//print_r($result);
-					//var_dump($myArray2);
-					//echo '</pre>'
-					?>
+
 					<h3 style="font-variant: small-caps">If You Started Taking Benefits...</h3>
 					
 					<h4><i class="fa fa-close" style="color: red"></i> Earliest:</h4>
-					<p>...at age <u><?php echo $earliestLifetimeBenefitsArray[0][1]; ?></u> you'll receive lifetime benefits of <u><?php echo '$'.number_format($earliestLifetimeBenefitsArray[0][6]); ?></u></p>
+					<p>...at age <u><?php echo $lifetimeBenefitsArray[0][0][1]; ?></u> you'll receive lifetime benefits of <u><?php echo '$'.number_format($lifetimeBenefitsArray[0][0][6]); ?></u></p>
 					
 					<h4><i class="fa fa-close" style="color: red"></i> FRA:</h4>
-					<p>...at age <u><?php echo $fraLifetimeBenefitsArray[0][1]; ?></u> you'll receive lifetime benefits of <u><?php echo '$'.number_format($fraLifetimeBenefitsArray[0][6]); ?></u></p>
+					<p>...at age <u><?php echo $lifetimeBenefitsArray[1][0][1]; ?></u> you'll receive lifetime benefits of <u><?php echo '$'.number_format($lifetimeBenefitsArray[1][0][6]); ?></u></p>
 		
 					<h4><i class="fa fa-close" style="color: red"></i> Latest:</h4>
-					<p>...at age <u><?php echo $latestLifetimeBenefitsArray[0][1]; ?></u> you'll receive lifetime benefits of <u><?php echo '$'.number_format($latestLifetimeBenefitsArray[0][6]); ?></u></p>
+					<p>...at age <u><?php echo $lifetimeBenefitsArray[2][0][1]; ?></u> you'll receive lifetime benefits of <u><?php echo '$'.number_format($lifetimeBenefitsArray[2][0][6]); ?></u></p>
 		
 					<h4><i class="fa fa-check" style="color: green"></i> Maximum:</h4>
-					<p>...at age <u><?php echo $ageMaxLifetimeBenefits[0][1]; ?></u> you'll receive lifetime benefits of <u><?php echo '$'.number_format($ageMaxLifetimeBenefits[0][6]); ?></u></p>
+					<p>...at age <u><?php echo $lifetimeBenefitsArray[3][0][1]; ?></u> you'll receive lifetime benefits of <u><?php echo '$'.number_format($lifetimeBenefitsArray[3][0][6]); ?></u></p>
 		
 				</div>
 				<div class="col-md-6">
@@ -208,31 +175,29 @@ if(isset($message)) { echo $message; };
 									<thead>
 										<th style="padding-left: 15px">Election Age</th>
 										<th>Year</th>
-										
 										<th>PIA Before Adjustment</th>
 										<th>Adjustment to PIA</th>
 										<th>Monthly Benefit</th>
 										<th>Lifetime Total</th>
 									</thead>
 									<tbody>
-										<?php  
-										for($i = 0; $i <= count($result); $i+=12) {
-											$resultYearEx = explode('-', $result[$i][0]);
-											$resultAgeEx = explode('-', $result[$i][1]);
-											$end = date("Y", $result[$lastItem][0]);
-											if($result[$i][5] > 0) {
-											?>
+									<?php  
+									for($i = 0; $i <= count($result); $i+=12) {
+										$resultYearEx = explode('-', $result[$i][0]);
+										$resultAgeEx = explode('-', $result[$i][1]);
+										$end = date("Y", $result[$lastItem][0]);
+										if($result[$i][5] > 0) {
+										?>
 											
 										<tr>
 											<td style="padding-left: 15px"><?php echo $resultAgeEx[0] ; ?></td>
 											<td><?php echo $resultYearEx[0] ; ?></td>
-											
 											<td>$<?php echo number_format(floor($result[$i][4])) ; ?></td>
 											<td><?php echo '$'.number_format(round($result[$i][4])) ; ?></td>
 											<td><?php echo '$'.number_format(round($result[$i][5])) ; ?></td>
 											<td>$<?php echo number_format(floor($result[$i][6])) ; ?></td>
 										</tr>
-										<?php } } ; ?>
+									<?php } } ; ?>
 						
 									</tbody>
 								</table>
@@ -246,53 +211,42 @@ if(isset($message)) { echo $message; };
 									<thead>
 										<th style="padding-left: 15px">Election Age</th>
 										<th>Year-Month</th>
-										
 										<th>PIA Before Adjustment</th>
 										<th>Adjustment to PIA</th>
 										<th>Monthly Benefit</th>
 										<th>Lifetime Total</th>
-									</thead>
+									</thead><!-- END thead -->
 									<tbody>
 						
-										<?php for($i = 0; $i < count($result); $i++) { 
-											if($result[$i][5] > 0 && $result[$i][2] <= 840) {?>
+									<?php for($i = 0; $i < count($result); $i++) { 
+										if($result[$i][5] > 0 && $result[$i][2] <= 840) {?>
 										<tr>
 											<td style="padding-left: 15px"><?php echo $result[$i][1] ; ?></td>
 										    <td><?php echo $result[$i][0] ; ?></td>
-										    
 										    <td>$<?php echo number_format(floor($result[$i][4])) ; ?></td>
 										    <td><?php echo $result[$i][3].'%' ; ?></td>
 										    <td>$<?php echo number_format(floor($result[$i][5])) ; ?></td>
 										    <td>$<?php echo number_format(floor($result[$i][6])) ; ?></td>
 										</tr>
-										<?php } } ?>
-									</tbody>
-								</table>
-							</div><!-- END col-md column -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+									<?php } } ?>
+									</tbody><!-- END tbody -->
+								</table><!-- END table -->
+							</div><!-- END col-md-12 column -->
+						</div><!-- END tab-pane -->
+					</div><!-- END tab-content -->
+				</div><!-- END col-md-12 -->
+			</div><!-- END row -->
+		</div><!-- END container -->
+	</div><!-- END fixed-content -->
 
-<span class="pull-right stickyButton">
-    <a href="?page=clients&id=<?php echo $opened['id']; ?>" class="well well-sm">
-        <i class="glyphicon glyphicon-chevron-left"></i> Back
-    </a>
-</span><!-- stickyButton -->
-<span id="top-link-block" class="hidden">
-    <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
-        <i class="glyphicon glyphicon-chevron-up"></i> Top&nbsp;&nbsp;
-    </a>
-</span><!-- /top-link-block -->
+<?php include('widgets/stickyButtons.php'); ?>
 
 <input type="hidden" name="submitted" value="1" />
 <input type="hidden" name="openedid" value="<?php echo $opened['id']; ?>" />
-
+</div> <!-- END row -->
 <script>
 	 FusionCharts.ready(function(){
-	    var monthlyChart = new FusionCharts({
+	    var lbmonthlyChart = new FusionCharts({
 	      type: "column2d",
 	      renderAt: "chartContainer",
 	      width: "100%",
@@ -324,11 +278,10 @@ if(isset($message)) { echo $message; };
 	          "labelStep": "5",
 	          "showValues": "0"
 	       },
-	       "data": [<?php for($i = 0; $i < count($lifetimeBenefitsSixtyTwoSeventy); $i++) { echo $lifetimeBenefitsSixtyTwoSeventy[$i]; } ?>]
+	       "data": [<?php for($i = 0; $i < count($lifetimeBenefitsSixtyTwoSeventyArray); $i++) { echo $lifetimeBenefitsSixtyTwoSeventyArray[$i]; } ?>]
 	 	}
 	  });
-	  
-	  var secsChart = new FusionCharts({
+	  var lbKeyAgesChart = new FusionCharts({
 	      type: "bar2d",
 	      renderAt: "chartContainer2",
 	      width: "100%",
@@ -364,27 +317,26 @@ if(isset($message)) { echo $message; };
 	       "data": [
 	       		{
 	       			'label': 'Earliest:',
-	       			'value': <?php echo json_encode($earliestLifetimeBenefitsArray[0][6]); ?>
+	       			'value': <?php echo json_encode($lifetimeBenefitsArray[0][0][6]); ?>
 	       		},
 	       		{
 	       			'label': 'FRA:',
-	       			'value': <?php echo json_encode($fraLifetimeBenefitsArray[0][6]); ?>
+	       			'value': <?php echo json_encode($lifetimeBenefitsArray[1][0][6]); ?>
 	       		},
 	       		{
 	       			'label': 'Latest:',
-	       			'value': <?php echo json_encode($latestLifetimeBenefitsArray[0][6]); ?>
+	       			'value': <?php echo json_encode($lifetimeBenefitsArray[2][0][6]); ?>
 	       		},
 	       		{
 	       			'label': 'Maximum:',
-	       			'value': <?php echo json_encode($ageMaxLifetimeBenefits[0][6]); ?>,
+	       			'value': <?php echo json_encode($lifetimeBenefitsArray[3][0][6]); ?>,
 	       			'color': '#00ff00'
 	       		}
 	       ]
 	 	}
 	  });
-	  monthlyChart.render("chartContainer");
+	  lbmonthlyChart.render("chartContainer");
 	  
-	  secsChart.render("chartContainer2");
+	  lbKeyAgesChart.render("chartContainer2");
 	});
- 
 </script>

@@ -95,6 +95,96 @@ class person {
 		
 	}
 	
+	// Calculate Lifetime Benefit at Various Ages
+	// Taking output from mainData function
+	function variousLifetimeBenefits($result, $fraMonths) {
+	
+		$earliestLifetimeBenefitsArray = array();
+		$latestLifetimeBenefitsArray = array();
+		$fraLifetimeBenefitsArray = array();
+		
+		$maxLifetimeBenefits = $this->array_max_recursive($result);
+		$ageMaxLifetimeBenefits = $this->array_multi_search($result, $maxLifetimeBenefits);
+	
+		for($i = 0; $i < count($result); $i++) {
+			if($result[$i][6] > 0 && $result[$i][2] <= 840 ) {
+				if($i == (count($result) - 1)){
+					array_push($lifetimeBenefitsSixtyTwoSeventy, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode($result[$i][6])."}");
+				} else {
+					array_push($lifetimeBenefitsSixtyTwoSeventy, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode($result[$i][6])."}, ");
+				}
+				if($dob[2] == 1 && $result[$i][2] == 745) {//TO DO
+					array_push($earliestLifetimeBenefitsArray, $result[$i]);
+					//} elseif ($result[0][2] > 744) {
+					//	array_push($myArray2, $result[0]);//TO DO
+				} elseif ($dob[2] != 1 && $result[$i][2] == 745) {
+					array_push($earliestLifetimeBenefitsArray, $result[$i]);
+				}
+				if ($result[$i][2] == $fraMonths) {
+					array_push($fraLifetimeBenefitsArray, $result[$i]);
+				}
+				if ($result[$i][2] == 840) {
+					array_push($latestLifetimeBenefitsArray, $result[$i]);
+				}
+			}
+			if($result[0][6] > 0) {
+				array_push($earliestLifetimeBenefitsArray, $result[0]);
+			}
+		}
+		return array($earliestLifetimeBenefitsArray, $fraLifetimeBenefitsArray, $latestLifetimeBenefitsArray, $ageMaxLifetimeBenefits);
+		
+	}
+
+	//Find lifetime benefits each age 62 to 70
+	function lifetimeBenefitsSixtyTwoSeventy($result) {
+		$lifetimeBenefitsSixtyTwoSeventy = array();
+		for($i = 0; $i < count($result); $i++) {
+			if($result[$i][6] > 0 && $result[$i][2] <= 840 ) {
+				if($i == (count($result) - 1)){
+					array_push($lifetimeBenefitsSixtyTwoSeventy, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode(floor($result[$i][6]))."}");
+				} else {
+					array_push($lifetimeBenefitsSixtyTwoSeventy, "{'label': ".json_encode($result[$i][1]).", 'value': ".json_encode(floor($result[$i][6]))."}, ");
+				}
+			}
+		}
+		return $lifetimeBenefitsSixtyTwoSeventy;
+	}
+
+	function array_max_recursive(array $array) {
+	    $max = NULL;
+	    $stack = array($array);
+	
+	    do {
+	        $current = array_pop($stack);
+	        foreach ($current as $value) {
+	            if (is_array($value)) {
+	                $stack[] = $value;
+	            } elseif (filter_var($value, FILTER_VALIDATE_INT) !== FALSE) {
+	                // max(NULL, 0) returns NULL, so cast it
+	                $max = (int) max($max, $value);
+	            }
+	        }
+	
+	    } while (!empty($stack));
+	
+	    return $max;
+	}
+	
+	function array_multi_search($array, $input){
+		
+	    $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($array));  
+	 
+	    foreach($iterator as $id => $sub){
+	        $subArray = $iterator->getSubIterator();
+	            if(@strstr(strtolower($sub), strtolower($input))){
+	                $subArray = iterator_to_array($subArray);
+	                $outputArray[] = array_merge($subArray, array('Matched' => $id));
+	            }
+	    }
+	 
+	    return $outputArray;
+	}
+	
 	//Calculate PIA
 	function piaCalculation($dobYear, $earningsArray, $yearsArray) {
 		

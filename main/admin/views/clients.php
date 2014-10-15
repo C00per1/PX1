@@ -132,7 +132,7 @@
 							<div class="pull-right" style="margin-right: 20px">
 								<?php
 								if($opened['id'] != '') {
-									$redirect = 'clientoverview';
+									$redirect = 'client';
 								} else {
 									$redirect = 'clients';
 								}
